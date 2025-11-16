@@ -9,14 +9,14 @@ export default async function Home() {
 
   return (
     <div className="mx-auto max-w-7xl px-1 py-3 md:px-6 md:py-10">
-      <h1 className="mb-4 text-2xl font-bold md:mb-8 md:text-3xl">
+      <h1 className="mb-4 text-center text-2xl font-extrabold uppercase md:mb-8 md:text-4xl">
         {lang.titleLatestItems}
       </h1>
       <ItemGrid items={items.data} />
       <Button
         className="mx-auto mt-4 block md:mt-6"
         size="lg"
-        variant="outline"
+        variant="outline-primary"
       >
         Lihat Semua
       </Button>

@@ -27,7 +27,7 @@ function ItemCard({ item }: ItemCardProps) {
           src={placeholder}
           alt={item.name}
           loading="lazy"
-          className="absolute inset-0 size-full object-cover transition-transform duration-400 group-hover:scale-110"
+          className="absolute inset-0 size-full object-cover transition-transform duration-600 group-hover:scale-105"
           height={100}
           width={100}
         />
@@ -39,7 +39,7 @@ function ItemCard({ item }: ItemCardProps) {
         <div className="text-base font-bold md:text-lg">
           {formatIDR(item.price)}
         </div>
-        <Button className="mt-2 w-full" size="lg" variant="outline">
+        <Button className="mt-2 w-full" size="lg" variant="outline-primary">
           {lang.buttonAddToCart}
         </Button>
       </CardContent>
