@@ -34,10 +34,11 @@ function ItemCard({ item }: ItemCardProps) {
         <Badge className="absolute top-3 left-3 z-1">{lang.badgeLatest}</Badge>
       </div>
 
-      <CardContent className="space-y-1 py-4">
-        <div className="text-base font-semibold">{item.name}</div>
-        <div className="text-xl font-bold">{formatIDR(item.price)}</div>
-
+      <CardContent className="space-y-1 p-2 md:p-3">
+        <div className="text-sm font-semibold md:text-base">{item.name}</div>
+        <div className="text-base font-bold md:text-lg">
+          {formatIDR(item.price)}
+        </div>
         <Button className="mt-2 w-full" size="lg" variant="outline">
           {lang.buttonAddToCart}
         </Button>
