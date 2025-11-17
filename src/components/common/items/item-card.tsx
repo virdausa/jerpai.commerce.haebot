@@ -3,7 +3,7 @@ import type { Item } from "@/modules/items/items.interface";
 import Image from "next/image";
 
 import placeholder from "@/assets/images/placeholder.jpg";
-import lang from "@/lang/id/home/lang";
+import lang from "@/lang/id/home/latest-products.lang";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

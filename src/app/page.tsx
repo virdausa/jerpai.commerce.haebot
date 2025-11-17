@@ -1,4 +1,4 @@
-import lang from "@/lang/id/home/lang";
+import lang from "@/lang/id/home/latest-products.lang";
 
 import { Button } from "@/components/ui/button";
 import { ItemGrid } from "@/components/common/items/item-grid";
