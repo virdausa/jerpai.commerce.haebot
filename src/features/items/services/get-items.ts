@@ -1,5 +1,5 @@
 import { env } from "@/config/env.config";
-import { erpApi } from "@/lib/http";
+import { erpApi } from "@/infrastructures/http";
 import { Item } from "@/features/items/types/item";
 
 interface GetItemsApiResponse {
