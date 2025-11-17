@@ -1,4 +1,4 @@
-import { Item } from "@/modules/items/items.interface";
+import { Item } from "@/features/items/types/item";
 import { ItemCard } from "./item-card";
 
 interface ItemGridProps {

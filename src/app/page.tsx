@@ -1,9 +1,9 @@
 import lang from "@/lang/id/home/latest-products.lang";
 
 import { Button } from "@/components/ui/button";
-import { ItemGrid } from "@/components/common/items/item-grid";
-import { PartnerLogo } from "@/components/home/partners-logo";
-import { getItems } from "@/modules/items/items.service";
+import { PartnerLogo } from "@/features/home/components/partners-logo";
+import { ItemGrid } from "@/features/items/components/item-grid";
+import { getItems } from "@/features/items/services/get-items";
 
 export default async function Home() {
   const items = await getItems({ limit: 4 });

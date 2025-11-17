@@ -1,6 +1,6 @@
 import { env } from "@/config/env.config";
 import { erpApi } from "@/lib/http";
-import { Item } from "./items.interface";
+import { Item } from "@/features/items/types/item";
 
 interface GetItemsApiResponse {
   draw: number;
@@ -24,4 +24,5 @@ async function getItems(data?: {
   return await response.json();
 }
 
+export type { GetItemsApiResponse };
 export { getItems };

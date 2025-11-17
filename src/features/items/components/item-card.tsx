@@ -1,4 +1,4 @@
-import type { Item } from "@/modules/items/items.interface";
+import type { Item } from "@/features/items/types/item";
 
 import Image from "next/image";
 

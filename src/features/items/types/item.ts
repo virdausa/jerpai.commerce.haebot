@@ -1,4 +1,4 @@
-import type { Inventory } from "@/modules/inventories/inventories.interface";
+import type { Inventory } from "@/features/inventories/types/inventory";
 
 export interface Item {
   id: number;
