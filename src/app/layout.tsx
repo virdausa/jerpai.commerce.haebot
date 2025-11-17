@@ -4,8 +4,10 @@ import { Inter } from "next/font/google";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { Header } from "@/components/layout/header";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
+import { CartStoreProvider } from "@/features/cart/providers/cart-store-provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -27,11 +29,14 @@ export default function RootLayout({
       <body className={`${inter.className}`}>
         <SidebarProvider defaultOpen={false}>
           <AppSidebar />
-          <div className="flex w-full flex-col">
-            <Header />
-            <main className="w-full">{children}</main>
-          </div>
+          <CartStoreProvider>
+            <div className="flex w-full flex-col">
+              <Header />
+              <main className="w-full">{children}</main>
+            </div>
+          </CartStoreProvider>
         </SidebarProvider>
+        <Toaster richColors />
       </body>
     </html>
   );

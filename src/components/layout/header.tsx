@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 
@@ -5,12 +7,16 @@ import haebot from "@/assets/logos/haebot.png";
 
 import { Search, ShoppingCart, User2 } from "lucide-react";
 
+import { SidebarTrigger } from "../ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SidebarTrigger } from "../ui/sidebar";
+import { Badge } from "@/components/ui/badge";
 import { navigationData } from "@/data/navigation.data";
+import { useCartStore } from "@/features/cart/providers/cart-store-provider";
 
 function Header() {
+  const { items } = useCartStore((state) => state);
+
   return (
     <header className="bg-background/95 sticky top-0 z-50 border-b backdrop-blur">
       <div className="mx-auto max-w-7xl px-6">
@@ -50,10 +56,17 @@ function Header() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" aria-label="Keranjang">
-              <ShoppingCart className="size-5" />
-              <span className="sr-only">Keranjang</span>
-            </Button>
+            <Link href="/cart" className="relative">
+              {items.length > 0 && (
+                <Badge className="absolute -top-1.25 -right-1.25 size-5 rounded-full px-1 tabular-nums">
+                  {items.length}
+                </Badge>
+              )}
+              <Button variant="ghost" size="icon" aria-label="Keranjang">
+                <ShoppingCart className="size-5" />
+                <span className="sr-only">Keranjang</span>
+              </Button>
+            </Link>
             <Button variant="ghost" size="icon" aria-label="Profil">
               <User2 className="size-5" />
               <span className="sr-only">Profil</span>

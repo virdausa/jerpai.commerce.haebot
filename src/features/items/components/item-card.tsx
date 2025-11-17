@@ -1,6 +1,10 @@
+"use client";
+
 import type { Item } from "@/features/items/types/item";
 
 import Image from "next/image";
+
+import { toast } from "sonner";
 
 import placeholder from "@/assets/images/placeholder.jpg";
 import lang from "@/lang/id/home/latest-products.lang";
@@ -8,14 +12,27 @@ import lang from "@/lang/id/home/latest-products.lang";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { formatIDR } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useCartStore } from "@/features/cart/providers/cart-store-provider";
+import { formatIDR } from "@/lib/utils";
 
 interface ItemCardProps {
   item: Item;
 }
 
 function ItemCard({ item }: ItemCardProps) {
+  const { items, addItem, updateItemQuantity } = useCartStore((state) => state);
+
+  function handleAddToCart() {
+    const isInCart = items.some((cartItem) => cartItem.item.id === item.id);
+    if (isInCart) {
+      updateItemQuantity(item.id, 1);
+    } else {
+      addItem({ item, quantity: 1 });
+    }
+    toast.success(`${item.name} ditambahkan ke keranjang`);
+  }
+
   return (
     <Card
       key={item.id}
@@ -39,7 +56,12 @@ function ItemCard({ item }: ItemCardProps) {
         <div className="text-base font-bold md:text-lg">
           {formatIDR(item.price)}
         </div>
-        <Button className="mt-2 w-full" size="lg" variant="outline-primary">
+        <Button
+          onClick={handleAddToCart}
+          className="mt-2 w-full"
+          size="lg"
+          variant="outline-primary"
+        >
           {lang.buttonAddToCart}
         </Button>
       </CardContent>
