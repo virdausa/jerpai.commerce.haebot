@@ -10,6 +10,9 @@ import { Badge } from "@/components/ui/badge";
 import { cn, formatIDR } from "@/lib/utils";
 import { useCartStore } from "@/features/cart/providers/cart-store-provider";
 import type { CartItem } from "@/features/cart/types/cart-item";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { Loader2Icon } from "lucide-react";
 
 type CartSummaryProps = {
   items?: CartItem[];
@@ -35,6 +38,8 @@ function CartSummary({
 
   const [promoCode, setPromoCode] = React.useState("");
   const [promoError, setPromoError] = React.useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = React.useState(false);
+  const router = useRouter();
 
   const toNumber = (value: string) => {
     const n = Number(value);
@@ -62,7 +67,48 @@ function CartSummary({
   };
 
   const handleCheckout = () => {
-    if (onCheckout) onCheckout();
+    if (onCheckout) {
+      onCheckout();
+      return;
+    }
+    if (isCartEmpty || isProcessing) return;
+    const invalid = items.some(
+      (it) => it.quantity <= 0 || !Number.isFinite(Number(it.item.price))
+    );
+    if (invalid) {
+      toast.error("Validasi keranjang gagal");
+      return;
+    }
+    setIsProcessing(true);
+    const payload = { items };
+    fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const data = await res.json().catch(() => null);
+          throw new Error(data?.message || "Gagal memproses checkout");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (!data?.success || !data?.order?.id) {
+          throw new Error("Data pesanan tidak valid");
+        }
+        toast.success("Pesanan berhasil dibuat");
+        const orderId = data.order.id as number;
+        router.push(`/checkout/${orderId}`);
+      })
+      .catch((err: unknown) => {
+        const message =
+          err instanceof Error ? err.message : "Terjadi kesalahan";
+        toast.error(message);
+      })
+      .finally(() => {
+        setIsProcessing(false);
+      });
   };
 
   return (
@@ -151,10 +197,18 @@ function CartSummary({
           className="w-full"
           size="lg"
           onClick={handleCheckout}
-          disabled={isCartEmpty}
-          aria-disabled={isCartEmpty ? "true" : "false"}
+          disabled={isCartEmpty || isProcessing}
+          aria-disabled={isCartEmpty || isProcessing ? "true" : "false"}
+          aria-busy={isProcessing ? "true" : "false"}
         >
-          Lanjutkan ke Checkout
+          {isProcessing ? (
+            <span className="inline-flex items-center gap-2">
+              <Loader2Icon className="animate-spin" />
+              Memproses...
+            </span>
+          ) : (
+            "Lanjutkan ke Checkout"
+          )}
         </Button>
       </CardFooter>
     </div>

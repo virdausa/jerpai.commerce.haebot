@@ -10,6 +10,7 @@ type CartActions = {
   addItem: (item: CartItem) => void;
   removeItem: (itemId: number) => void;
   updateItemQuantity: (itemId: number, quantity: number) => void;
+  clearCart: () => void;
 };
 
 type CartStore = CartState & CartActions;
@@ -35,6 +36,7 @@ function createCartStore(initState: CartState = defaultCartState) {
           item.item.id === itemId ? { ...item, quantity } : item
         ),
       })),
+    clearCart: () => set({ items: [] }),
   }));
 }
 
