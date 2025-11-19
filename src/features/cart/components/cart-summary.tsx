@@ -2,19 +2,31 @@
 
 import * as React from "react";
 
-import { lang as cartLang } from "@/lang/id/cart/cart.lang";
+import { Loader2Icon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useForm, useWatch } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
-import { CardContent, CardFooter } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { cn, formatIDR } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { useCartStore } from "@/features/cart/providers/cart-store-provider";
 import type { CartItem } from "@/features/cart/types/cart-item";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { Loader2Icon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CardContent, CardFooter } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { lang as cartLang } from "@/lang/id/cart/cart.lang";
+import { cn, formatIDR } from "@/lib/utils";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
 
 type CartSummaryProps = {
   items?: CartItem[];
@@ -44,6 +56,56 @@ function CartSummary({
   const [isProcessing, setIsProcessing] = React.useState(false);
   const router = useRouter();
 
+  const CustomerInfoSchema = z.object({
+    email: z
+      .email({ message: "Format email tidak valid" })
+      .min(1, "Email wajib diisi"),
+    fullName: z
+      .string()
+      .min(2, "Nama minimal 2 karakter")
+      .max(100, "Nama maksimal 100 karakter"),
+    phone: z
+      .string()
+      .min(1, "Nomor telepon wajib diisi")
+      .regex(
+        /^\+[1-9]\d{7,14}$/,
+        "Gunakan format internasional, mis. +62xxxxxxxxxx"
+      ),
+  });
+
+  type CustomerInfo = z.infer<typeof CustomerInfoSchema>;
+
+  const form = useForm<CustomerInfo>({
+    resolver: zodResolver(CustomerInfoSchema),
+    defaultValues: { email: "", fullName: "", phone: "" },
+    mode: "onChange",
+    reValidateMode: "onChange",
+  });
+
+  React.useEffect(() => {
+    try {
+      const stored = sessionStorage.getItem("customer_info");
+      if (stored) {
+        const parsed = JSON.parse(stored) as Partial<CustomerInfo>;
+        form.reset({
+          email: parsed.email ?? "",
+          fullName: parsed.fullName ?? "",
+          phone: parsed.phone ?? "",
+        });
+        form.trigger();
+      }
+    } catch {}
+  }, [form]);
+
+  const customerInfo = useWatch({ control: form.control });
+
+  React.useEffect(() => {
+    if (!customerInfo) return;
+    try {
+      sessionStorage.setItem("customer_info", JSON.stringify(customerInfo));
+    } catch {}
+  }, [customerInfo]);
+
   const toNumber = (value: string) => {
     const n = Number(value);
     return Number.isFinite(n) ? n : 0;
@@ -62,6 +124,7 @@ function CartSummary({
     formatCurrency ? formatCurrency(n) : formatIDR(String(Math.round(n)));
 
   const isCartEmpty = items.length === 0;
+  const isFormValid = form.formState.isValid;
 
   const handlePromoKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -75,44 +138,54 @@ function CartSummary({
       return;
     }
     if (isCartEmpty || isProcessing) return;
-    const invalid = items.some(
-      (it) => it.quantity <= 0 || !Number.isFinite(Number(it.item.price))
+    const submit = form.handleSubmit(
+      () => {
+        const invalid = items.some(
+          (it) => it.quantity <= 0 || !Number.isFinite(Number(it.item.price))
+        );
+        if (invalid) {
+          toast.error(cartLang.checkoutValidationFailed);
+          return;
+        }
+        setIsProcessing(true);
+        const payload = { items };
+        fetch("/api/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        })
+          .then(async (res) => {
+            if (!res.ok) {
+              const data = await res.json().catch(() => null);
+              throw new Error(
+                data?.message || cartLang.checkoutProcessingFailed
+              );
+            }
+            return res.json();
+          })
+          .then((data) => {
+            if (!data?.success || !data?.order?.id) {
+              throw new Error(cartLang.invalidOrderData);
+            }
+            toast.success(cartLang.orderCreatedSuccess);
+            const orderId = data.order.id as number;
+            router.push(`/checkout/${orderId}`);
+          })
+          .catch((err: unknown) => {
+            const message =
+              err instanceof Error ? err.message : cartLang.errorOccurred;
+            toast.error(message);
+          })
+          .finally(() => {
+            setIsProcessing(false);
+            clearCart();
+          });
+      },
+      () => {
+        toast.error("Lengkapi informasi pelanggan sebelum checkout");
+      }
     );
-    if (invalid) {
-      toast.error(cartLang.checkoutValidationFailed);
-      return;
-    }
-    setIsProcessing(true);
-    const payload = { items };
-    fetch("/api/checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    })
-      .then(async (res) => {
-        if (!res.ok) {
-          const data = await res.json().catch(() => null);
-          throw new Error(data?.message || cartLang.checkoutProcessingFailed);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        if (!data?.success || !data?.order?.id) {
-          throw new Error(cartLang.invalidOrderData);
-        }
-        toast.success(cartLang.orderCreatedSuccess);
-        const orderId = data.order.id as number;
-        router.push(`/checkout/${orderId}`);
-      })
-      .catch((err: unknown) => {
-        const message =
-          err instanceof Error ? err.message : cartLang.errorOccurred;
-        toast.error(message);
-      })
-      .finally(() => {
-        setIsProcessing(false);
-        clearCart();
-      });
+    submit();
   };
 
   return (
@@ -122,6 +195,69 @@ function CartSummary({
       aria-label="Cart summary"
     >
       <CardContent className="space-y-3">
+        <Form {...form}>
+          <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email *</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      inputMode="email"
+                      required
+                      aria-required="true"
+                      placeholder="nama@mail.com"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="fullName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nama Lengkap *</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      required
+                      aria-required="true"
+                      placeholder="Nama Lengkap"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nomor Telepon *</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="tel"
+                      inputMode="tel"
+                      required
+                      aria-required="true"
+                      placeholder="+62xxxxxxxxxx"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
         <div className="flex items-center justify-between py-1">
           <div className="text-muted-foreground text-sm">
             {cartLang.subtotal}
@@ -207,8 +343,10 @@ function CartSummary({
           className="w-full"
           size="lg"
           onClick={handleCheckout}
-          disabled={isCartEmpty || isProcessing}
-          aria-disabled={isCartEmpty || isProcessing ? "true" : "false"}
+          disabled={isCartEmpty || isProcessing || !isFormValid}
+          aria-disabled={
+            isCartEmpty || isProcessing || !isFormValid ? "true" : "false"
+          }
           aria-busy={isProcessing ? "true" : "false"}
         >
           {isProcessing ? (
