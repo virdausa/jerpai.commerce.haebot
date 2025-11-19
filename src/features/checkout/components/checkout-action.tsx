@@ -4,22 +4,18 @@ import Link from "next/link";
 import { CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatIDR } from "@/lib/utils";
-import { useCartStore } from "@/features/cart/providers/cart-store-provider";
+import { OrderData } from "@/features/orders/services/update-order";
 
-function CheckoutActions({ orderId }: { orderId: string }) {
-  const items = useCartStore((s) => s.items);
-  const subtotal = items.reduce(
-    (acc, it) => acc + Number(it.item.price) * it.quantity,
-    0
-  );
-  const total = subtotal;
+function CheckoutActions({ order }: { order: OrderData }) {
+  const items = order.details;
+  const total = order.total;
 
   const lines = [
-    `Saya mau membayar pesanan dengan nomor pesanan ${orderId}.`,
+    `Saya mau membayar pesanan dengan nomor pesanan ${order.id}.`,
     "Rincian Pesanan:",
     ...items.map(
       (it) =>
-        `- ${it.item.name} x${it.quantity} @ ${formatIDR(String(Math.round(Number(it.item.price))))}`
+        `- ${it.notes} x${it.quantity} @ ${formatIDR(String(Math.round(Number(it.price))))}`
     ),
     `Total: ${formatIDR(String(Math.round(total)))}`,
   ];

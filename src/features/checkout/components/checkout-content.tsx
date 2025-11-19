@@ -3,22 +3,18 @@
 import { CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { formatIDR } from "@/lib/utils";
-import { useCartStore } from "@/features/cart/providers/cart-store-provider";
+import { OrderData } from "@/features/orders/services/update-order";
 
-function CheckoutContent({ orderId }: { orderId: string }) {
-  const items = useCartStore((s) => s.items);
+function CheckoutContent({ order }: { order: OrderData }) {
+  const items = order.details;
 
-  const subtotal = items.reduce(
-    (acc, it) => acc + Number(it.item.price) * it.quantity,
-    0
-  );
-  const total = subtotal;
+  const total = order.total;
 
   return (
     <CardContent className="space-y-3">
       <div className="flex items-center justify-between py-1">
         <div className="text-muted-foreground text-sm">Nomor Pesanan</div>
-        <div className="font-medium tabular-nums">{orderId}</div>
+        <div className="font-medium tabular-nums">{order.id}</div>
       </div>
       <Separator className="my-1" />
       <div className="space-y-2">
@@ -27,20 +23,18 @@ function CheckoutContent({ orderId }: { orderId: string }) {
           {items.length === 0 ? (
             <li className="text-muted-foreground">Keranjang kosong</li>
           ) : (
-            items.map((cartItem) => (
+            items.map((item) => (
               <li
-                key={`summary-${cartItem.item.id}`}
+                key={`summary-${item.id}`}
                 className="flex items-center justify-between"
               >
                 <span>
-                  {cartItem.item.name} × {cartItem.quantity}
+                  {item.notes} × {item.quantity}
                 </span>
                 <span className="tabular-nums">
                   {formatIDR(
                     String(
-                      Math.round(
-                        Number(cartItem.item.price) * cartItem.quantity
-                      )
+                      Math.round(Number(item.price) * Number(item.quantity))
                     )
                   )}
                 </span>

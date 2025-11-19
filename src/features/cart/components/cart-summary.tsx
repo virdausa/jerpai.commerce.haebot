@@ -34,6 +34,7 @@ function CartSummary({
   formatCurrency,
 }: CartSummaryProps) {
   const storeItems = useCartStore((s) => s.items);
+  const clearCart = useCartStore((s) => s.clearCart);
   const items = providedItems ?? storeItems;
 
   const [promoCode, setPromoCode] = React.useState("");
@@ -99,6 +100,7 @@ function CartSummary({
         }
         toast.success("Pesanan berhasil dibuat");
         const orderId = data.order.id as number;
+        clearCart();
         router.push(`/checkout/${orderId}`);
       })
       .catch((err: unknown) => {

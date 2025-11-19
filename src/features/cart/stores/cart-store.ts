@@ -1,4 +1,5 @@
 import { createStore } from "zustand/vanilla";
+import { persist } from "zustand/middleware";
 
 import { CartItem } from "@/features/cart/types/cart-item";
 
@@ -20,24 +21,31 @@ const defaultCartState: CartState = {
 };
 
 function createCartStore(initState: CartState = defaultCartState) {
-  return createStore<CartStore>()((set) => ({
-    ...initState,
-    addItem: (item) =>
-      set((state) => ({
-        items: [...state.items, item],
-      })),
-    removeItem: (itemId) =>
-      set((state) => ({
-        items: state.items.filter((item) => item.item.id !== itemId),
-      })),
-    updateItemQuantity: (itemId, quantity) =>
-      set((state) => ({
-        items: state.items.map((item) =>
-          item.item.id === itemId ? { ...item, quantity } : item
-        ),
-      })),
-    clearCart: () => set({ items: [] }),
-  }));
+  return createStore<CartStore>()(
+    persist(
+      (set) => ({
+        ...initState,
+        addItem: (item) =>
+          set((state) => ({
+            items: [...state.items, item],
+          })),
+        removeItem: (itemId) =>
+          set((state) => ({
+            items: state.items.filter((item) => item.item.id !== itemId),
+          })),
+        updateItemQuantity: (itemId, quantity) =>
+          set((state) => ({
+            items: state.items.map((item) =>
+              item.item.id === itemId ? { ...item, quantity } : item
+            ),
+          })),
+        clearCart: () => set({ items: [] }),
+      }),
+      {
+        name: "cart-storage",
+      }
+    )
+  );
 }
 
 export type { CartStore };

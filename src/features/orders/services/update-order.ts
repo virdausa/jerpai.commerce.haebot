@@ -1,5 +1,4 @@
 import { env } from "@/config/env.config";
-import { CartItem } from "@/features/cart/types/cart-item";
 import { Item } from "@/features/items/types/item";
 import { erpApi } from "@/infrastructures/http";
 
@@ -139,5 +138,5 @@ async function updateOrder(
   return await response.json();
 }
 
-export type { UpdateOrderResponse };
+export type { UpdateOrderResponse, OrderData };
 export { updateOrder };
