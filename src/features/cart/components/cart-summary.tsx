@@ -102,7 +102,6 @@ function CartSummary({
         }
         toast.success(cartLang.orderCreatedSuccess);
         const orderId = data.order.id as number;
-        clearCart();
         router.push(`/checkout/${orderId}`);
       })
       .catch((err: unknown) => {
@@ -112,6 +111,7 @@ function CartSummary({
       })
       .finally(() => {
         setIsProcessing(false);
+        clearCart();
       });
   };
 

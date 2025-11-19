@@ -20,8 +20,6 @@ export default async function CheckoutPage({
 
   const order = response.data[0];
 
-  console.log(order);
-
   return (
     <section className="container mx-auto max-w-7xl px-1 py-3 md:px-6 md:py-10">
       <h1 className="mb-4 text-2xl font-extrabold uppercase md:mb-8 md:text-4xl">
