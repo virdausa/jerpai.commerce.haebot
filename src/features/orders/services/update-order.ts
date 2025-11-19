@@ -2,6 +2,32 @@ import { env } from "@/config/env.config";
 import { Item } from "@/features/items/types/item";
 import { erpApi } from "@/infrastructures/http";
 
+interface ItemDetail {
+  id: number;
+  primary_code: string | null;
+  code: string;
+  sku: string;
+  parent_type: string | null;
+  parent_id: number | null;
+  type_type: string | null;
+  type_id: number | null;
+  model_type: string | null;
+  model_id: number | null;
+  space_type: string;
+  space_id: number;
+  name: string;
+  price: string;
+  cost: string;
+  weight: string;
+  dimension: string | null;
+  status: string;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+  description: string | null;
+}
+
 interface OrderDetail {
   id: number;
   transaction_id: number;
@@ -24,6 +50,7 @@ interface OrderDetail {
   code: null;
   weight: string;
   discount: string;
+  detail: ItemDetail;
 }
 
 interface OrderData {

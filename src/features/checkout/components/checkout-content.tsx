@@ -33,7 +33,8 @@ function CheckoutContent({ order }: { order: OrderData }) {
                 className="flex items-center justify-between"
               >
                 <span>
-                  {item.notes} × {item.quantity}
+                  {item.detail?.name || item.notes || "Unknown Item"} ×{" "}
+                  {item.quantity}
                 </span>
                 <span className="tabular-nums">
                   {formatIDR(
