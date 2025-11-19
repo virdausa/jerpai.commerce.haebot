@@ -102,6 +102,7 @@ type PartialCartItem = {
 };
 
 async function updateOrder(
+  orderId: number,
   cartItems: PartialCartItem[]
 ): Promise<UpdateOrderResponse> {
   const body: UpdateOrderRequestBody = {
@@ -115,12 +116,12 @@ async function updateOrder(
         discount: "0",
         cost_per_unit: item?.price?.toString() || "0",
         notes: item?.notes || "",
-        model_type: item?.model_type ?? "",
+        model_type: item?.model_type ?? "SO",
       };
     }),
   };
 
-  const response = erpApi.post<UpdateOrderResponse>("trades", {
+  const response = erpApi.put(`trades/${orderId}`, {
     searchParams: {
       space_id: env.ERP_SPACE,
       sender_id: env.ERP_SENDER,
@@ -135,7 +136,8 @@ async function updateOrder(
       token: env.ERP_TOKEN,
     },
   });
-  return await response.json();
+
+  return response.json();
 }
 
 export type { UpdateOrderResponse, OrderData };

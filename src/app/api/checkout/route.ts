@@ -38,7 +38,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const updated = await updateOrder(items);
+    const orderId = created.data[0].id;
+    const updated = await updateOrder(orderId, items);
     if (!updated.success || !updated.data?.[0]) {
       return NextResponse.json(
         { success: false, message: "Gagal memperbarui pesanan" },
