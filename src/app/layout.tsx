@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
-      <body className={`${inter.className}`}>
+      <body className={`${inter.className} text-foreground bg-background`}>
         <SidebarProvider defaultOpen={false}>
           <AppSidebar />
           <CartStoreProvider>

@@ -2,7 +2,6 @@ import lang from "@/lang/id/home/latest-products.lang";
 import commonLang from "@/lang/id/common.lang";
 
 import { Button } from "@/components/ui/button";
-import { PartnerLogo } from "@/features/home/components/partners-logo";
 import { ItemGrid } from "@/features/items/components/item-grid";
 import { getItems } from "@/features/items/services/get-items";
 
@@ -11,11 +10,8 @@ export default async function Home() {
 
   return (
     <>
-      <div className="bg-primary text-primary-foreground w-full">
-        <PartnerLogo />
-      </div>
       <div className="mx-auto max-w-7xl px-1 py-3 md:px-6 md:py-10">
-        <h2 className="mb-4 text-center text-2xl font-extrabold uppercase md:mb-8 md:text-4xl">
+        <h2 className="mb-3 text-xl font-extrabold uppercase md:mb-6 md:text-2xl">
           {lang.titleLatestItems}
         </h2>
         <ItemGrid items={items.data} />
