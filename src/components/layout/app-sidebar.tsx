@@ -1,3 +1,5 @@
+import navLang from "@/lang/id/layout/navigation.lang";
+
 import {
   Sidebar,
   SidebarContent,
@@ -17,7 +19,7 @@ function AppSidebar() {
     <Sidebar>
       <SidebarHeader />
       <SidebarContent>
-        <SidebarGroupLabel>Navigasi</SidebarGroupLabel>
+        <SidebarGroupLabel>{navLang.navigationLabel}</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             {navigationData.map((item) => (

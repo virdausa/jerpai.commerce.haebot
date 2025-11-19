@@ -7,7 +7,8 @@ import Image from "next/image";
 import { toast } from "sonner";
 
 import placeholder from "@/assets/images/placeholder.jpg";
-import lang from "@/lang/id/home/latest-products.lang";
+import itemLang from "@/lang/id/items/item.lang";
+import commonLang from "@/lang/id/common.lang";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -30,7 +31,7 @@ function ItemCard({ item }: ItemCardProps) {
     } else {
       addItem({ item, quantity: 1 });
     }
-    toast.success(`${item.name} ditambahkan ke keranjang`);
+    toast.success(commonLang.addedToCart(item.name));
   }
 
   return (
@@ -48,7 +49,9 @@ function ItemCard({ item }: ItemCardProps) {
           height={100}
           width={100}
         />
-        <Badge className="absolute top-3 left-3 z-1">{lang.badgeLatest}</Badge>
+        <Badge className="absolute top-3 left-3 z-1">
+          {itemLang.badgeLatest}
+        </Badge>
       </div>
 
       <CardContent className="space-y-1 p-2 md:p-3">
@@ -62,7 +65,7 @@ function ItemCard({ item }: ItemCardProps) {
           size="lg"
           variant="outline-primary"
         >
-          {lang.buttonAddToCart}
+          {commonLang.addToCart}
         </Button>
       </CardContent>
     </Card>

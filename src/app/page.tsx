@@ -1,4 +1,5 @@
 import lang from "@/lang/id/home/latest-products.lang";
+import commonLang from "@/lang/id/common.lang";
 
 import { Button } from "@/components/ui/button";
 import { PartnerLogo } from "@/features/home/components/partners-logo";
@@ -23,7 +24,7 @@ export default async function Home() {
           size="lg"
           variant="outline-primary"
         >
-          Lihat Semua
+          {commonLang.seeAll}
         </Button>
       </div>
     </>

@@ -1,5 +1,7 @@
 import type { CartItem as CartItemType } from "../types/cart-item";
 
+import { lang as cartLang } from "@/lang/id/cart/cart.lang";
+
 import Image from "next/image";
 import { MinusIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
@@ -50,9 +52,9 @@ function CartItem({ cartItem, showControls = true, className }: CartItemProps) {
   function handleDelete() {
     const snapshot = { ...cartItem };
     removeItem(item.id);
-    toast.info(`${item.name} dihapus dari keranjang`, {
+    toast.info(cartLang.itemRemovedFromCart(item.name), {
       action: {
-        label: "Urungkan",
+        label: cartLang.undoAction,
         onClick: () => {
           addItem(snapshot);
         },
@@ -65,7 +67,7 @@ function CartItem({ cartItem, showControls = true, className }: CartItemProps) {
       variant="outline"
       role="listitem"
       tabIndex={0}
-      aria-label={`Produk ${item.name}`}
+      aria-label={cartLang.productLabel(item.name)}
       className={cn(
         "group shadow-xs transition-shadow hover:shadow-sm",
         className
@@ -87,7 +89,7 @@ function CartItem({ cartItem, showControls = true, className }: CartItemProps) {
           <Button
             variant="outline"
             size="icon-sm"
-            aria-label="Kurangi jumlah"
+            aria-label={cartLang.decreaseQuantity}
             disabled={!canDecrease}
             onClick={handleDecrease}
           >
@@ -102,7 +104,7 @@ function CartItem({ cartItem, showControls = true, className }: CartItemProps) {
           <Button
             variant="outline"
             size="icon-sm"
-            aria-label="Tambah jumlah"
+            aria-label={cartLang.increaseQuantity}
             disabled={!canIncrease}
             onClick={handleIncrease}
           >
@@ -111,7 +113,7 @@ function CartItem({ cartItem, showControls = true, className }: CartItemProps) {
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Hapus item"
+            aria-label={cartLang.removeItem}
             onClick={handleDelete}
           >
             <Trash2Icon />

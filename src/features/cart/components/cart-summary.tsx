@@ -2,6 +2,8 @@
 
 import * as React from "react";
 
+import { lang as cartLang } from "@/lang/id/cart/cart.lang";
+
 import { CardContent, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -63,7 +65,7 @@ function CartSummary({
 
   const handlePromoKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      setPromoError("Promo code sedang tidak ada");
+      setPromoError(cartLang.promoNotAvailable);
     }
   };
 
@@ -77,7 +79,7 @@ function CartSummary({
       (it) => it.quantity <= 0 || !Number.isFinite(Number(it.item.price))
     );
     if (invalid) {
-      toast.error("Validasi keranjang gagal");
+      toast.error(cartLang.checkoutValidationFailed);
       return;
     }
     setIsProcessing(true);
@@ -90,22 +92,22 @@ function CartSummary({
       .then(async (res) => {
         if (!res.ok) {
           const data = await res.json().catch(() => null);
-          throw new Error(data?.message || "Gagal memproses checkout");
+          throw new Error(data?.message || cartLang.checkoutProcessingFailed);
         }
         return res.json();
       })
       .then((data) => {
         if (!data?.success || !data?.order?.id) {
-          throw new Error("Data pesanan tidak valid");
+          throw new Error(cartLang.invalidOrderData);
         }
-        toast.success("Pesanan berhasil dibuat");
+        toast.success(cartLang.orderCreatedSuccess);
         const orderId = data.order.id as number;
         clearCart();
         router.push(`/checkout/${orderId}`);
       })
       .catch((err: unknown) => {
         const message =
-          err instanceof Error ? err.message : "Terjadi kesalahan";
+          err instanceof Error ? err.message : cartLang.errorOccurred;
         toast.error(message);
       })
       .finally(() => {
@@ -121,7 +123,9 @@ function CartSummary({
     >
       <CardContent className="space-y-3">
         <div className="flex items-center justify-between py-1">
-          <div className="text-muted-foreground text-sm">Subtotal</div>
+          <div className="text-muted-foreground text-sm">
+            {cartLang.subtotal}
+          </div>
           <div
             className="font-medium tabular-nums"
             aria-live="polite"
@@ -131,7 +135,9 @@ function CartSummary({
           </div>
         </div>
         <div className="flex items-center justify-between py-1">
-          <div className="text-muted-foreground text-sm">Diskon</div>
+          <div className="text-muted-foreground text-sm">
+            {cartLang.discount}
+          </div>
           <div
             className="font-medium tabular-nums"
             aria-live="polite"
@@ -142,7 +148,7 @@ function CartSummary({
         </div>
         <div className="flex items-center justify-between py-1">
           <div className="text-muted-foreground text-sm">
-            Pajak ({Math.round(taxRate * 100)}%)
+            {cartLang.tax} ({Math.round(taxRate * 100)}%)
           </div>
           <div
             className="font-medium tabular-nums"
@@ -153,14 +159,16 @@ function CartSummary({
           </div>
         </div>
         <div className="flex items-center justify-between py-1">
-          <div className="text-muted-foreground text-sm">Ongkos Kirim</div>
+          <div className="text-muted-foreground text-sm">
+            {cartLang.deliveryFee}
+          </div>
           <Badge variant="secondary" aria-label="Delivery is free">
-            FREE
+            {cartLang.freeDelivery}
           </Badge>
         </div>
         <Separator className="my-1" />
         <div className="flex items-center justify-between py-1">
-          <div className="text-base font-semibold">Total</div>
+          <div className="text-base font-semibold">{cartLang.total}</div>
           <div
             className="text-lg font-extrabold tabular-nums"
             aria-live="polite"
@@ -174,7 +182,7 @@ function CartSummary({
       <CardFooter className="flex flex-col gap-3">
         <div className="flex w-full items-center gap-2">
           <Input
-            placeholder="Masukkan kode promo"
+            placeholder={cartLang.promoCodePlaceholder}
             value={promoCode}
             onChange={(e) => {
               setPromoCode(e.target.value);
@@ -186,7 +194,7 @@ function CartSummary({
             aria-describedby={promoError ? "promo-error" : undefined}
           />
           <Button variant="outline" disabled aria-disabled="true">
-            Terapkan
+            {cartLang.applyPromo}
           </Button>
         </div>
         {promoError ? (
@@ -206,10 +214,10 @@ function CartSummary({
           {isProcessing ? (
             <span className="inline-flex items-center gap-2">
               <Loader2Icon className="animate-spin" />
-              Memproses...
+              {cartLang.processing}
             </span>
           ) : (
-            "Lanjutkan ke Checkout"
+            cartLang.proceedToCheckout
           )}
         </Button>
       </CardFooter>

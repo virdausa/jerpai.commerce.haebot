@@ -1,5 +1,7 @@
 "use client";
 
+import checkoutLang from "@/lang/id/checkout/checkout.lang";
+
 import { CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { formatIDR } from "@/lib/utils";
@@ -13,15 +15,17 @@ function CheckoutContent({ order }: { order: OrderData }) {
   return (
     <CardContent className="space-y-3">
       <div className="flex items-center justify-between py-1">
-        <div className="text-muted-foreground text-sm">Nomor Pesanan</div>
+        <div className="text-muted-foreground text-sm">
+          {checkoutLang.orderNumber}
+        </div>
         <div className="font-medium tabular-nums">{order.id}</div>
       </div>
       <Separator className="my-1" />
       <div className="space-y-2">
-        <div className="text-sm font-semibold">Rincian Item</div>
+        <div className="text-sm font-semibold">{checkoutLang.itemDetails}</div>
         <ul className="space-y-1">
           {items.length === 0 ? (
-            <li className="text-muted-foreground">Keranjang kosong</li>
+            <li className="text-muted-foreground">{checkoutLang.emptyCart}</li>
           ) : (
             items.map((item) => (
               <li
@@ -45,7 +49,7 @@ function CheckoutContent({ order }: { order: OrderData }) {
       </div>
       <Separator />
       <div className="flex items-center justify-between py-1">
-        <div className="text-base font-semibold">Total</div>
+        <div className="text-base font-semibold">{checkoutLang.total}</div>
         <div className="text-lg font-extrabold tabular-nums">
           {formatIDR(String(Math.round(total)))}
         </div>

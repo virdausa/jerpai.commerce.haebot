@@ -2,6 +2,8 @@
 
 import * as React from "react";
 
+import { lang as cartLang } from "@/lang/id/cart/cart.lang";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CartItem } from "./cart-item";
 import { useCartStore } from "@/features/cart/providers/cart-store-provider";
@@ -37,18 +39,18 @@ function CartItemList() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Produk di Keranjang</CardTitle>
+        <CardTitle>{cartLang.productsInCart}</CardTitle>
       </CardHeader>
       <CardContent>
         <div
           ref={listRef}
           role="list"
-          aria-label="Daftar item keranjang"
+          aria-label={cartLang.cartItemList}
           onKeyDown={handleKeyDown}
           className="flex snap-x snap-mandatory flex-col gap-3 overflow-y-auto overscroll-y-contain scroll-smooth py-2 md:gap-4 md:py-3 lg:gap-5"
         >
           {items.length === 0 ? (
-            <div className="text-muted-foreground">Keranjang kosong</div>
+            <div className="text-muted-foreground">{cartLang.emptyCart}</div>
           ) : (
             items.map((cartItem) => (
               <div

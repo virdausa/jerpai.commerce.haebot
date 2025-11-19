@@ -1,5 +1,7 @@
 "use client";
 
+import navLang from "@/lang/id/layout/navigation.lang";
+
 import Link from "next/link";
 import Image from "next/image";
 
@@ -49,7 +51,7 @@ function Header() {
             <div className="relative">
               <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
               <Input
-                placeholder="Cari produk..."
+                placeholder={navLang.searchPlaceholder}
                 className="w-full pl-9 md:max-w-lg"
               />
             </div>
@@ -62,14 +64,22 @@ function Header() {
                   {items.length}
                 </Badge>
               )}
-              <Button variant="ghost" size="icon" aria-label="Keranjang">
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label={navLang.cartAriaLabel}
+              >
                 <ShoppingCart className="size-5" />
-                <span className="sr-only">Keranjang</span>
+                <span className="sr-only">{navLang.cartAriaLabel}</span>
               </Button>
             </Link>
-            <Button variant="ghost" size="icon" aria-label="Profil">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label={navLang.profileAriaLabel}
+            >
               <User2 className="size-5" />
-              <span className="sr-only">Profil</span>
+              <span className="sr-only">{navLang.profileAriaLabel}</span>
             </Button>
           </div>
         </div>

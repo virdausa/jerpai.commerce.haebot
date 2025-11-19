@@ -1,5 +1,8 @@
 "use client";
 
+import checkoutLang from "@/lang/id/checkout/checkout.lang";
+import commonLang from "@/lang/id/common.lang";
+
 import Link from "next/link";
 import { CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,13 +14,13 @@ function CheckoutActions({ order }: { order: OrderData }) {
   const total = order.total;
 
   const lines = [
-    `Saya mau membayar pesanan dengan nomor pesanan ${order.id}.`,
-    "Rincian Pesanan:",
+    checkoutLang.whatsappMessage.greeting(order.id),
+    checkoutLang.whatsappMessage.detailsHeader,
     ...items.map(
       (it) =>
         `- ${it.notes} x${it.quantity} @ ${formatIDR(String(Math.round(Number(it.price))))}`
     ),
-    `Total: ${formatIDR(String(Math.round(total)))}`,
+    checkoutLang.whatsappMessage.total(formatIDR(String(Math.round(total)))),
   ];
   const message = lines.join("\n");
   const waHref = `https://wa.me/6285246428746?text=${encodeURIComponent(message)}`;
@@ -28,7 +31,7 @@ function CheckoutActions({ order }: { order: OrderData }) {
     <CardContent className="space-y-3">
       <div className="flex flex-col gap-3">
         <Button asChild variant="outline-primary" size="lg">
-          <Link href="/">Lanjut Belanja</Link>
+          <Link href="/">{commonLang.continueShopping}</Link>
         </Button>
         <Button
           asChild
@@ -37,7 +40,7 @@ function CheckoutActions({ order }: { order: OrderData }) {
           aria-disabled={disabled ? "true" : "false"}
         >
           <a href={waHref} target="_blank" rel="noopener noreferrer">
-            Lanjutkan ke Whatsapp
+            {checkoutLang.continueToWhatsapp}
           </a>
         </Button>
       </div>
