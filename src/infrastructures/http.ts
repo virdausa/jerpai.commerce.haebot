@@ -2,7 +2,7 @@ import { env } from "@/config/env.config";
 import ky from "ky";
 
 const erpApi = ky.create({
-  prefixUrl: env.ERP_URL,
+  prefixUrl: `${env.ERP_URL}/api`,
   headers: {
     "Content-Type": "application/json",
   },

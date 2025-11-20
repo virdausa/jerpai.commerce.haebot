@@ -1,6 +1,10 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+export function getFullImageUrl(path: string) {
+  return `${process.env.NEXT_PUBLIC_ERP_URL}/${path}`;
+}
+
 export const debounce = <T extends unknown[]>(
   callback: (...args: T) => unknown,
   delay: number

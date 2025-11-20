@@ -25,4 +25,9 @@ export interface Item {
   deleted_at: string | null;
   description: string | null;
   inventories: Inventory[];
+  images?: {
+    name: string;
+    path: string;
+    size: number;
+  }[];
 }

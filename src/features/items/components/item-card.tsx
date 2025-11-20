@@ -18,7 +18,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useCartStore } from "@/features/cart/providers/cart-store-provider";
 import { useWishlistStore } from "@/features/wishlist/providers/wishlist-store-provider";
 import { MAX_ITEMS } from "@/features/wishlist/stores/wishlist-store";
-import { formatIDR } from "@/lib/utils";
+import { formatIDR, getFullImageUrl } from "@/lib/utils";
 import wishlistLang from "@/lang/id/wishlist/wishlist.lang";
 
 interface ItemCardProps {
@@ -29,6 +29,9 @@ interface ItemCardProps {
 function ItemCard({ item, showLatestBadge }: ItemCardProps) {
   const { items, addItem, updateItemQuantity } = useCartStore((state) => state);
   const { items: wishlistItems, toggle } = useWishlistStore((state) => state);
+
+  const image = item.images?.[0];
+  const imageUrl = image?.path ? getFullImageUrl(image.path) : placeholder;
 
   function handleAddToCart() {
     const isInCart = items.some((cartItem) => cartItem.item.id === item.id);
@@ -43,13 +46,13 @@ function ItemCard({ item, showLatestBadge }: ItemCardProps) {
   return (
     <Card
       key={item.id}
-      className="group border-border bg-card text-card-foreground relative flex h-full flex-col overflow-hidden rounded-xl shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+      className="group border-border bg-card text-card-foreground relative flex h-full flex-col overflow-hidden rounded-xl pt-0 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
     >
       {/* Image Section */}
       <div className="bg-muted relative aspect-square w-full overflow-hidden">
         <Skeleton className="absolute inset-0 size-full" />
         <Image
-          src={placeholder}
+          src={imageUrl}
           alt={item.name}
           loading="lazy"
           className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-110"
