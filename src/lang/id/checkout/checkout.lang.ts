@@ -16,6 +16,12 @@ interface CheckoutLang {
     detailsHeader: string;
     total: (total: string) => string;
   };
+  receiverNote: {
+    email: (email: string) => string;
+    name: (name: string) => string;
+    phone: (phone: string) => string;
+    note: (note: string) => string;
+  };
 }
 
 const lang: CheckoutLang = {
@@ -36,6 +42,12 @@ const lang: CheckoutLang = {
       `Saya mau membayar pesanan dengan nomor pesanan ${orderId}.`,
     detailsHeader: "Rincian Pesanan:",
     total: (total: string) => `Total: ${total}`,
+  },
+  receiverNote: {
+    email: (email: string) => `Email: ${email}`,
+    name: (name: string) => `Nama: ${name}`,
+    phone: (phone: string) => `Nomor Telepon: ${phone}`,
+    note: (note: string) => `Catatan: ${note}`,
   },
 };
 

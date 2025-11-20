@@ -27,6 +27,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 
 type CartSummaryProps = {
   items?: CartItem[];
@@ -71,13 +72,14 @@ function CartSummary({
         /^\+[1-9]\d{7,14}$/,
         "Gunakan format internasional, mis. +62xxxxxxxxxx"
       ),
+    note: z.string().optional(),
   });
 
   type CustomerInfo = z.infer<typeof CustomerInfoSchema>;
 
   const form = useForm<CustomerInfo>({
     resolver: zodResolver(CustomerInfoSchema),
-    defaultValues: { email: "", fullName: "", phone: "" },
+    defaultValues: { email: "", fullName: "", phone: "", note: "" },
     mode: "onChange",
     reValidateMode: "onChange",
   });
@@ -91,6 +93,7 @@ function CartSummary({
           email: parsed.email ?? "",
           fullName: parsed.fullName ?? "",
           phone: parsed.phone ?? "",
+          note: parsed.note ?? "",
         });
         form.trigger();
       }
@@ -148,7 +151,7 @@ function CartSummary({
           return;
         }
         setIsProcessing(true);
-        const payload = { items };
+        const payload = { items, customerData: form.getValues() };
         fetch("/api/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -251,6 +254,19 @@ function CartSummary({
                       placeholder="+62xxxxxxxxxx"
                       {...field}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="note"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Catatan</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Catatan untuk penjual" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -1,4 +1,5 @@
 import type { OrderData } from "../types/order-data";
+import lang from "@/lang/id/checkout/checkout.lang";
 
 import { env } from "@/config/env.config";
 import { Item } from "@/features/items/types/item";
@@ -31,7 +32,13 @@ type PartialCartItem = {
 
 async function updateOrder(
   orderId: number,
-  cartItems: PartialCartItem[]
+  cartItems: PartialCartItem[],
+  customerData: {
+    email: string;
+    fullName: string;
+    phone: string;
+    note?: string;
+  }
 ): Promise<UpdateOrderResponse> {
   const body: UpdateOrderRequestBody = {
     details: cartItems.map((cartItem) => {
@@ -49,6 +56,13 @@ async function updateOrder(
     }),
   };
 
+  const data = [
+    lang.receiverNote.email(customerData.email),
+    lang.receiverNote.name(customerData.fullName),
+    lang.receiverNote.phone(customerData.phone),
+    customerData.note && lang.receiverNote.note(customerData.note),
+  ];
+
   const response = erpApi.put(`trades/${orderId}`, {
     searchParams: {
       space_id: env.ERP_SPACE,
@@ -58,6 +72,7 @@ async function updateOrder(
       tags: "",
       links: "",
       status: "TX_DRAFT",
+      receiver_notes: data.join("\n"),
     },
     body: JSON.stringify(body),
     context: {
