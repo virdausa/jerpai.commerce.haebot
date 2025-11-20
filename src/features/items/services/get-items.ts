@@ -11,7 +11,7 @@ interface GetItemsApiResponse {
 }
 
 async function getItems(data?: {
-  limit?: number;
+  length?: number;
   q?: string;
   page?: number;
 }): Promise<GetItemsApiResponse> {
@@ -20,7 +20,7 @@ async function getItems(data?: {
       space_id: env.ERP_SPACE,
       q: data?.q ?? "",
       limit: "all",
-      length: data?.limit ?? 10,
+      length: data?.length ?? 10,
       start: data?.page ?? 1,
     },
   });

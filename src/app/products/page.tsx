@@ -9,7 +9,7 @@ export const metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function ProductsPage() {
-  const initialItems = await getItems({ limit: 20, page: 1 });
+  const initialItems = await getItems({ length: 20, page: 1 });
 
   return (
     <div className="mx-auto max-w-7xl px-1 py-3 md:px-6 md:py-10">
