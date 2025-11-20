@@ -3,6 +3,7 @@
 import type { Item } from "@/features/items/types/item";
 
 import Image from "next/image";
+import { Heart, ShoppingCart } from "lucide-react";
 
 import { toast } from "sonner";
 
@@ -19,9 +20,10 @@ import { formatIDR } from "@/lib/utils";
 
 interface ItemCardProps {
   item: Item;
+  showLatestBadge?: boolean;
 }
 
-function ItemCard({ item }: ItemCardProps) {
+function ItemCard({ item, showLatestBadge }: ItemCardProps) {
   const { items, addItem, updateItemQuantity } = useCartStore((state) => state);
 
   function handleAddToCart() {
@@ -37,36 +39,75 @@ function ItemCard({ item }: ItemCardProps) {
   return (
     <Card
       key={item.id}
-      className="group gap-0 overflow-hidden p-0 shadow-sm transition-shadow hover:shadow-md"
+      className="group border-border bg-card text-card-foreground relative flex h-full flex-col overflow-hidden rounded-xl shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
     >
-      <div className="relative aspect-square w-full overflow-hidden">
+      {/* Image Section */}
+      <div className="bg-muted relative aspect-square w-full overflow-hidden">
         <Skeleton className="absolute inset-0 size-full" />
         <Image
           src={placeholder}
           alt={item.name}
           loading="lazy"
-          className="absolute inset-0 size-full object-cover transition-transform duration-600 group-hover:scale-105"
-          height={100}
-          width={100}
+          className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-110"
+          height={300}
+          width={300}
         />
-        <Badge className="absolute top-3 left-3 z-1">
-          {itemLang.badgeLatest}
-        </Badge>
+        {showLatestBadge && (
+          <Badge className="bg-background/80 text-foreground hover:bg-background/90 absolute top-3 left-3 z-10 backdrop-blur-sm">
+            {itemLang.badgeLatest}
+          </Badge>
+        )}
+
+        {/* Quick Actions Overlay (Optional - can be always visible or on hover) */}
+        <div className="absolute top-3 right-3 z-10 flex flex-col gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          {/* Placeholder for future quick actions like 'Quick View' */}
+        </div>
       </div>
 
-      <CardContent className="space-y-1 p-2 md:p-3">
-        <div className="text-sm font-semibold md:text-base">{item.name}</div>
-        <div className="text-base font-bold md:text-lg">
-          {formatIDR(item.price)}
+      <CardContent className="flex flex-1 flex-col p-4">
+        {/* Category / Type */}
+        <div className="text-muted-foreground mb-1 text-xs font-medium tracking-wider uppercase">
+          {item.type_type || "Item"}
         </div>
-        <Button
-          onClick={handleAddToCart}
-          className="mt-2 w-full"
-          size="lg"
-          variant="outline-primary"
+
+        {/* Title */}
+        <h3
+          className="text-foreground mb-2 line-clamp-2 min-h-[2.5rem] text-base leading-tight font-semibold"
+          title={item.name}
         >
-          {commonLang.addToCart}
-        </Button>
+          {item.name}
+        </h3>
+
+        {/* Price */}
+        <div className="mt-auto mb-4 flex items-baseline gap-2">
+          <span className="text-primary text-lg font-bold md:text-xl">
+            {formatIDR(item.price)}
+          </span>
+          {/* Optional: Show original price if discounted */}
+          {/* <span className="text-sm text-muted-foreground line-through">Rp 999.000</span> */}
+        </div>
+
+        {/* Actions */}
+        <div className="grid grid-cols-[1fr_auto] gap-2">
+          <Button
+            onClick={handleAddToCart}
+            className="w-full gap-2"
+            size="default"
+            variant="default"
+          >
+            <ShoppingCart className="size-4" />
+            {commonLang.addToCart}
+          </Button>
+
+          <Button
+            size="icon"
+            variant="outline"
+            className="text-muted-foreground hover:text-destructive hover:border-destructive aspect-square shrink-0"
+            aria-label="Add to wishlist"
+          >
+            <Heart className="size-4" />
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
