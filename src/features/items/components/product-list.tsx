@@ -4,6 +4,8 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { Loader2, Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import itemLang from "@/lang/id/items/item.lang";
+import navLang from "@/lang/id/layout/navigation.lang";
 
 import { Item } from "@/features/items/types/item";
 import { ItemCard } from "@/features/items/components/item-card";
@@ -49,7 +51,7 @@ export function ProductList({ initialItems, initialTotal }: ProductListProps) {
       setTotalItems(response.recordsFiltered);
       setPage(currentPage);
     } catch (error) {
-      toast.error("Failed to load items");
+      toast.error(itemLang.failedToLoadItems);
       console.error(error);
     } finally {
       setLoading(false);
@@ -176,7 +178,7 @@ export function ProductList({ initialItems, initialTotal }: ProductListProps) {
       <div className="relative">
         <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
         <Input
-          placeholder="Search products..."
+          placeholder={navLang.searchPlaceholder}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="pl-10"
@@ -197,7 +199,7 @@ export function ProductList({ initialItems, initialTotal }: ProductListProps) {
             </div>
           ) : (
             <div className="text-muted-foreground py-10 text-center">
-              No products found
+              {itemLang.noProductsFound}
             </div>
           )}
 

@@ -7,6 +7,7 @@ interface NavigationLang {
   searchPlaceholder: string;
   cartAriaLabel: string;
   profileAriaLabel: string;
+  wishlistAriaLabel: string;
   // Sidebar
   navigationLabel: string;
 }
@@ -20,6 +21,7 @@ const lang: NavigationLang = {
   searchPlaceholder: "Cari produk...",
   cartAriaLabel: "Keranjang",
   profileAriaLabel: "Profil",
+  wishlistAriaLabel: "Daftar Keinginan",
   // Sidebar
   navigationLabel: "Navigasi",
 };

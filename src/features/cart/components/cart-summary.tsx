@@ -185,7 +185,7 @@ function CartSummary({
           });
       },
       () => {
-        toast.error("Lengkapi informasi pelanggan sebelum checkout");
+        toast.error(cartLang.checkoutValidationFailed);
       }
     );
     submit();
@@ -195,7 +195,7 @@ function CartSummary({
     <div
       className={cn("space-y-4", className)}
       role="complementary"
-      aria-label="Cart summary"
+      aria-label={cartLang.summaryTitle}
     >
       <CardContent className="space-y-3">
         <Form {...form}>
@@ -314,7 +314,7 @@ function CartSummary({
           <div className="text-muted-foreground text-sm">
             {cartLang.deliveryFee}
           </div>
-          <Badge variant="secondary" aria-label="Delivery is free">
+          <Badge variant="secondary" aria-label={cartLang.freeDelivery}>
             {cartLang.freeDelivery}
           </Badge>
         </div>
@@ -341,7 +341,7 @@ function CartSummary({
               if (promoError) setPromoError(null);
             }}
             onKeyDown={handlePromoKeyDown}
-            aria-label="Promo code"
+            aria-label={cartLang.promoCodePlaceholder}
             aria-invalid={promoError ? true : false}
             aria-describedby={promoError ? "promo-error" : undefined}
           />

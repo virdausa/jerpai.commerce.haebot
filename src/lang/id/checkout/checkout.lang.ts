@@ -11,6 +11,7 @@ interface CheckoutLang {
   emptyCart: string;
   total: string;
   continueToWhatsapp: string;
+  unknownItem: string;
   whatsappMessage: {
     greeting: (orderId: number) => string;
     detailsHeader: string;
@@ -37,6 +38,7 @@ const lang: CheckoutLang = {
   emptyCart: "Keranjang kosong",
   total: "Total",
   continueToWhatsapp: "Lanjutkan ke Whatsapp",
+  unknownItem: "Item tidak diketahui",
   whatsappMessage: {
     greeting: (orderId: number) =>
       `Saya mau membayar pesanan dengan nomor pesanan ${orderId}.`,

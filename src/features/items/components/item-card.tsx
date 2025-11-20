@@ -19,6 +19,7 @@ import { useCartStore } from "@/features/cart/providers/cart-store-provider";
 import { useWishlistStore } from "@/features/wishlist/providers/wishlist-store-provider";
 import { MAX_ITEMS } from "@/features/wishlist/stores/wishlist-store";
 import { formatIDR } from "@/lib/utils";
+import wishlistLang from "@/lang/id/wishlist/wishlist.lang";
 
 interface ItemCardProps {
   item: Item;
@@ -70,7 +71,7 @@ function ItemCard({ item, showLatestBadge }: ItemCardProps) {
       <CardContent className="flex flex-1 flex-col p-4">
         {/* Category / Type */}
         <div className="text-muted-foreground mb-1 text-xs font-medium tracking-wider uppercase">
-          {item.type_type || "Item"}
+          {item.type_type || itemLang.typeFallback}
         </div>
 
         {/* Title */}
@@ -116,8 +117,8 @@ function ItemCard({ item, showLatestBadge }: ItemCardProps) {
             }
             aria-label={
               wishlistItems.some((w) => w.item.id === item.id)
-                ? "Remove from wishlist"
-                : "Add to wishlist"
+                ? wishlistLang.removeAria
+                : wishlistLang.addAria
             }
             aria-pressed={wishlistItems.some((w) => w.item.id === item.id)}
             onClick={() => {
@@ -125,20 +126,18 @@ function ItemCard({ item, showLatestBadge }: ItemCardProps) {
                 (w) => w.item.id === item.id
               );
               if (!isWishlisted && wishlistItems.length >= MAX_ITEMS) {
-                toast.error("Wishlist limit reached (50 items)");
+                toast.error(wishlistLang.limitReached(MAX_ITEMS));
                 return;
               }
               const ok = toggle(item);
               if (!ok) {
-                toast.error(
-                  "Unable to update wishlist. Storage blocked or full."
-                );
+                toast.error(wishlistLang.storageError);
                 return;
               }
               if (isWishlisted) {
-                toast.info(`Removed from wishlist: ${item.name}`);
+                toast.info(wishlistLang.removed(item.name));
               } else {
-                toast.success(`Added to wishlist: ${item.name}`);
+                toast.success(wishlistLang.added(item.name));
               }
             }}
           >

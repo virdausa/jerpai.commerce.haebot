@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import wishlistLang from "@/lang/id/wishlist/wishlist.lang";
 
 export default function WishlistPage() {
   const { items, clear, setSort, sortBy } = useWishlistStore((s) => s);
@@ -52,10 +53,10 @@ export default function WishlistPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex flex-col items-center gap-4">
-              <h1 className="text-2xl font-semibold">Wishlist</h1>
-              <p className="text-muted-foreground">Your wishlist is empty.</p>
+              <h1 className="text-2xl font-semibold">{wishlistLang.title}</h1>
+              <p className="text-muted-foreground">{wishlistLang.empty}</p>
               <Button asChild>
-                <Link href="/products">Browse products</Link>
+                <Link href="/products">{wishlistLang.browseProducts}</Link>
               </Button>
             </div>
           </CardContent>
@@ -67,30 +68,34 @@ export default function WishlistPage() {
   return (
     <div className="mx-auto max-w-7xl px-6 py-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Wishlist ({items.length})</h1>
+        <h1 className="text-2xl font-semibold">
+          {wishlistLang.titleCount(items.length)}
+        </h1>
         <div className="flex items-center gap-2">
           <label htmlFor="wishlist-sort" className="text-sm">
-            Sort
+            {wishlistLang.sortLabel}
           </label>
           <Select value={sortBy} onValueChange={(v) => setSort(v as SortBy)}>
             <SelectTrigger id="wishlist-sort" className="w-[180px] text-sm">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="date_desc">Date added (newest)</SelectItem>
-              <SelectItem value="date_asc">Date added (oldest)</SelectItem>
-              <SelectItem value="price_desc">Price (high → low)</SelectItem>
-              <SelectItem value="price_asc">Price (low → high)</SelectItem>
+              <SelectItem value="date_desc">{wishlistLang.dateDesc}</SelectItem>
+              <SelectItem value="date_asc">{wishlistLang.dateAsc}</SelectItem>
+              <SelectItem value="price_desc">
+                {wishlistLang.priceDesc}
+              </SelectItem>
+              <SelectItem value="price_asc">{wishlistLang.priceAsc}</SelectItem>
             </SelectContent>
           </Select>
           <Button
             variant="outline"
             onClick={() => {
               clear();
-              toast.message("Wishlist cleared");
+              toast.message(wishlistLang.cleared);
             }}
           >
-            Clear all
+            {wishlistLang.clearAll}
           </Button>
         </div>
       </div>

@@ -18,7 +18,7 @@ function CheckoutActions({ order }: { order: OrderData }) {
     checkoutLang.whatsappMessage.detailsHeader,
     ...items.map(
       (it) =>
-        `- ${it.detail?.name || it.notes || "Unknown Item"} x${it.quantity} @ ${formatIDR(String(Math.round(Number(it.price))))}`
+        `- ${it.detail?.name || it.notes || checkoutLang.unknownItem} x${it.quantity} @ ${formatIDR(String(Math.round(Number(it.price))))}`
     ),
     checkoutLang.whatsappMessage.total(formatIDR(String(Math.round(total)))),
   ];

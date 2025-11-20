@@ -1,6 +1,7 @@
 "use client";
 
 import navLang from "@/lang/id/layout/navigation.lang";
+import wishlistLang from "@/lang/id/wishlist/wishlist.lang";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -66,9 +67,13 @@ function Header() {
                   {wishlistItems.length}
                 </Badge>
               )}
-              <Button variant="ghost" size="icon" aria-label="Wishlist">
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label={navLang.wishlistAriaLabel}
+              >
                 <Heart className="size-5" />
-                <span className="sr-only">Wishlist</span>
+                <span className="sr-only">{navLang.wishlistAriaLabel}</span>
               </Button>
             </Link>
             <Link href="/cart" className="relative">

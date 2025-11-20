@@ -2,8 +2,8 @@ import { ProductList } from "@/features/items/components/product-list";
 import { fetchItems } from "@/features/items/actions/fetch-items";
 
 export const metadata = {
-  title: "Products | Jerpai",
-  description: "Browse our collection of products",
+  title: "Produk | Jerpai",
+  description: "Jelajahi koleksi produk kami",
 };
 
 export const dynamic = "force-dynamic";
@@ -19,7 +19,7 @@ export default async function ProductsPage({
   return (
     <div className="mx-auto max-w-7xl px-1 py-3 md:px-6 md:py-10">
       <h1 className="mb-6 text-2xl font-extrabold uppercase md:text-3xl">
-        Products
+        Produk
       </h1>
       <ProductList
         initialItems={initialItems.data}
