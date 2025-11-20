@@ -16,6 +16,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCartStore } from "@/features/cart/providers/cart-store-provider";
+import { useWishlistStore } from "@/features/wishlist/providers/wishlist-store-provider";
+import { MAX_ITEMS } from "@/features/wishlist/stores/wishlist-store";
 import { formatIDR } from "@/lib/utils";
 
 interface ItemCardProps {
@@ -25,6 +27,7 @@ interface ItemCardProps {
 
 function ItemCard({ item, showLatestBadge }: ItemCardProps) {
   const { items, addItem, updateItemQuantity } = useCartStore((state) => state);
+  const { items: wishlistItems, toggle } = useWishlistStore((state) => state);
 
   function handleAddToCart() {
     const isInCart = items.some((cartItem) => cartItem.item.id === item.id);
@@ -101,11 +104,45 @@ function ItemCard({ item, showLatestBadge }: ItemCardProps) {
 
           <Button
             size="icon"
-            variant="outline"
-            className="text-muted-foreground hover:text-destructive hover:border-destructive aspect-square shrink-0"
-            aria-label="Add to wishlist"
+            variant={
+              wishlistItems.some((w) => w.item.id === item.id)
+                ? "default"
+                : "outline"
+            }
+            className={
+              wishlistItems.some((w) => w.item.id === item.id)
+                ? "bg-destructive hover:bg-destructive/90 text-destructive aspect-square shrink-0"
+                : "text-muted-foreground hover:text-destructive hover:border-destructive aspect-square shrink-0"
+            }
+            aria-label={
+              wishlistItems.some((w) => w.item.id === item.id)
+                ? "Remove from wishlist"
+                : "Add to wishlist"
+            }
+            aria-pressed={wishlistItems.some((w) => w.item.id === item.id)}
+            onClick={() => {
+              const isWishlisted = wishlistItems.some(
+                (w) => w.item.id === item.id
+              );
+              if (!isWishlisted && wishlistItems.length >= MAX_ITEMS) {
+                toast.error("Wishlist limit reached (50 items)");
+                return;
+              }
+              const ok = toggle(item);
+              if (!ok) {
+                toast.error(
+                  "Unable to update wishlist. Storage blocked or full."
+                );
+                return;
+              }
+              if (isWishlisted) {
+                toast.info(`Removed from wishlist: ${item.name}`);
+              } else {
+                toast.success(`Added to wishlist: ${item.name}`);
+              }
+            }}
           >
-            <Heart className="size-4" />
+            <Heart className="fill-muted size-4" />
           </Button>
         </div>
       </CardContent>

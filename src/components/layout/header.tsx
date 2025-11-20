@@ -7,7 +7,7 @@ import Image from "next/image";
 
 import haebot from "@/assets/logos/haebot.png";
 
-import { Search, ShoppingCart, User2 } from "lucide-react";
+import { Search, ShoppingCart, User2, Heart } from "lucide-react";
 
 import { SidebarTrigger } from "../ui/sidebar";
 import { Button } from "@/components/ui/button";
@@ -15,9 +15,11 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { navigationData } from "@/data/navigation.data";
 import { useCartStore } from "@/features/cart/providers/cart-store-provider";
+import { useWishlistStore } from "@/features/wishlist/providers/wishlist-store-provider";
 
 function Header() {
   const { items } = useCartStore((state) => state);
+  const { items: wishlistItems } = useWishlistStore((state) => state);
 
   return (
     <header className="bg-background/95 sticky top-0 z-50 border-b backdrop-blur">
@@ -58,6 +60,17 @@ function Header() {
           </div>
 
           <div className="flex items-center gap-2">
+            <Link href="/wishlist" className="relative">
+              {wishlistItems.length > 0 && (
+                <Badge className="absolute -top-1.25 -right-1.25 size-5 rounded-full px-1 tabular-nums">
+                  {wishlistItems.length}
+                </Badge>
+              )}
+              <Button variant="ghost" size="icon" aria-label="Wishlist">
+                <Heart className="size-5" />
+                <span className="sr-only">Wishlist</span>
+              </Button>
+            </Link>
             <Link href="/cart" className="relative">
               {items.length > 0 && (
                 <Badge className="absolute -top-1.25 -right-1.25 size-5 rounded-full px-1 tabular-nums">

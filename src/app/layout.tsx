@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 import { CartStoreProvider } from "@/features/cart/providers/cart-store-provider";
+import { WishlistStoreProvider } from "@/features/wishlist/providers/wishlist-store-provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,10 +31,12 @@ export default function RootLayout({
         <SidebarProvider defaultOpen={false}>
           <AppSidebar />
           <CartStoreProvider>
-            <div className="flex w-full flex-col">
-              <Header />
-              <main className="w-full">{children}</main>
-            </div>
+            <WishlistStoreProvider>
+              <div className="flex w-full flex-col">
+                <Header />
+                <main className="w-full">{children}</main>
+              </div>
+            </WishlistStoreProvider>
           </CartStoreProvider>
         </SidebarProvider>
         <Toaster richColors />
