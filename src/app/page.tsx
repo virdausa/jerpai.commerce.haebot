@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { ItemGrid } from "@/features/items/components/item-grid";
 import { getItems } from "@/features/items/services/get-items";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const items = await getItems({ limit: 4 });
 

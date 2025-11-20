@@ -6,6 +6,8 @@ export const metadata = {
   description: "Browse our collection of products",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function ProductsPage() {
   const initialItems = await getItems({ limit: 20, page: 1 });
 
