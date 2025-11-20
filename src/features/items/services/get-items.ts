@@ -13,12 +13,15 @@ interface GetItemsApiResponse {
 async function getItems(data?: {
   limit?: number;
   q?: string;
+  page?: number;
 }): Promise<GetItemsApiResponse> {
   const response = erpApi.get("items/data", {
     searchParams: {
       space_id: env.ERP_SPACE,
       q: data?.q ?? "",
-      limit: data?.limit ?? 10,
+      limit: "all",
+      length: data?.limit ?? 10,
+      start: data?.page ?? 1,
     },
   });
   return await response.json();
