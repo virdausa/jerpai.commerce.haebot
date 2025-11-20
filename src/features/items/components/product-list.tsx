@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from "react";
 import { Loader2, Search } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
 import { Item } from "@/features/items/types/item";
@@ -25,11 +26,14 @@ interface ProductListProps {
 }
 
 export function ProductList({ initialItems, initialTotal }: ProductListProps) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const [items, setItems] = useState<Item[]>(initialItems);
   const [totalItems, setTotalItems] = useState(initialTotal);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
   const [loading, setLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
 
   const debouncedSearch = useDebounce(searchQuery, 500);
   const firstRender = useRef(true);
@@ -58,12 +62,15 @@ export function ProductList({ initialItems, initialTotal }: ProductListProps) {
       firstRender.current = false;
       return;
     }
+
     // Reset to page 1 and fetch
+    router.push(`?page=${1}&q=${debouncedSearch}`);
     fetchPage(1, debouncedSearch);
-  }, [debouncedSearch, fetchPage]);
+  }, [debouncedSearch, fetchPage, router]);
 
   const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > totalPages || newPage === page) return;
+    router.push(`?page=${newPage}&q=${debouncedSearch}`);
     fetchPage(newPage, debouncedSearch);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
