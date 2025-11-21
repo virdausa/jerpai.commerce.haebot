@@ -86,7 +86,7 @@ function CartSummary({
 
   React.useEffect(() => {
     try {
-      const stored = sessionStorage.getItem("customer_info");
+      const stored = localStorage.getItem("customer_info");
       if (stored) {
         const parsed = JSON.parse(stored) as Partial<CustomerInfo>;
         form.reset({
@@ -105,7 +105,7 @@ function CartSummary({
   React.useEffect(() => {
     if (!customerInfo) return;
     try {
-      sessionStorage.setItem("customer_info", JSON.stringify(customerInfo));
+      localStorage.setItem("customer_info", JSON.stringify(customerInfo));
     } catch {}
   }, [customerInfo]);
 
@@ -152,6 +152,9 @@ function CartSummary({
         }
         setIsProcessing(true);
         const payload = { items, customerData: form.getValues() };
+        try {
+          localStorage.setItem("checkout_payload", JSON.stringify(payload));
+        } catch {}
         fetch("/api/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -172,6 +175,20 @@ function CartSummary({
             }
             toast.success(cartLang.orderCreatedSuccess);
             const orderId = data.order.id as number;
+            try {
+              const ordersRaw = localStorage.getItem("orders_history");
+              const orders = ordersRaw ? JSON.parse(ordersRaw) : [];
+              const entry = {
+                id: orderId,
+                createdAt: new Date().toISOString(),
+                items,
+                total,
+              };
+              localStorage.setItem(
+                "orders_history",
+                JSON.stringify([entry, ...orders])
+              );
+            } catch {}
             router.push(`/checkout/${orderId}`);
           })
           .catch((err: unknown) => {
