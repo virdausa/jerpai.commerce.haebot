@@ -95,14 +95,14 @@ function ItemCard({ item, showLatestBadge }: ItemCardProps) {
         </div>
 
         {/* Actions */}
-        <div className="grid grid-cols-[1fr_auto] gap-2">
+        <div className="grid min-w-0 grid-cols-1 gap-2 md:grid-cols-[1fr_auto] md:items-center">
           <Button
             onClick={handleAddToCart}
-            className="w-full gap-2"
+            className="h-12 w-full gap-2 whitespace-normal md:h-9 md:whitespace-nowrap"
             size="default"
             variant="default"
           >
-            <ShoppingCart className="size-4" />
+            <ShoppingCart className="size-5 md:size-4" />
             {commonLang.addToCart}
           </Button>
 
@@ -115,8 +115,8 @@ function ItemCard({ item, showLatestBadge }: ItemCardProps) {
             }
             className={
               wishlistItems.some((w) => w.item.id === item.id)
-                ? "bg-destructive hover:bg-destructive/90 text-destructive aspect-square shrink-0"
-                : "text-muted-foreground hover:text-destructive hover:border-destructive aspect-square shrink-0"
+                ? "bg-destructive hover:bg-destructive/90 text-destructive size-12 shrink-0 md:size-9"
+                : "text-muted-foreground hover:text-destructive hover:border-destructive size-12 shrink-0 md:size-9"
             }
             aria-label={
               wishlistItems.some((w) => w.item.id === item.id)
@@ -144,7 +144,7 @@ function ItemCard({ item, showLatestBadge }: ItemCardProps) {
               }
             }}
           >
-            <Heart className="fill-muted size-4" />
+            <Heart className="fill-muted size-5 md:size-4" />
           </Button>
         </div>
       </CardContent>
