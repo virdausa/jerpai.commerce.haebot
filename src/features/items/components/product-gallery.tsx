@@ -50,7 +50,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 overflow-hidden">
       <div className="relative w-full overflow-hidden rounded-lg border bg-white">
         <Carousel
           opts={{
@@ -93,7 +93,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
       </div>
 
       {images.length > 1 && (
-        <div className="scrollbar-hide flex w-full gap-2 overflow-x-scroll p-1">
+        <div className="scrollbar-hide flex gap-2 overflow-x-auto p-1">
           {images.map((image, index) => (
             <button
               key={index}
