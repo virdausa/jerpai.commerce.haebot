@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { cn, getFullImageUrl } from "@/lib/utils";
 import Image from "next/image";
 import { ImageZoom } from "@/components/ui/shadcn-io/image-zoom";
+import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
   CarouselContent,
@@ -56,6 +57,11 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
             align: "start",
             loop: true,
           }}
+          plugins={[
+            Autoplay({
+              delay: 5000,
+            }),
+          ]}
           setApi={setApi}
           className="w-full"
         >
