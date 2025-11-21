@@ -1,7 +1,6 @@
 "use client";
 
 import navLang from "@/lang/id/layout/navigation.lang";
-import wishlistLang from "@/lang/id/wishlist/wishlist.lang";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -14,6 +13,12 @@ import { SidebarTrigger } from "../ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { navigationData } from "@/data/navigation.data";
 import { useCartStore } from "@/features/cart/providers/cart-store-provider";
 import { useWishlistStore } from "@/features/wishlist/providers/wishlist-store-provider";
@@ -91,14 +96,43 @@ function Header() {
                 <span className="sr-only">{navLang.cartAriaLabel}</span>
               </Button>
             </Link>
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label={navLang.profileAriaLabel}
-            >
-              <User2 className="size-5" />
-              <span className="sr-only">{navLang.profileAriaLabel}</span>
-            </Button>
+            <HoverCard openDelay={500}>
+              <HoverCardTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label={navLang.profileAriaLabel}
+                >
+                  <User2 className="size-5" />
+                  <span className="sr-only">{navLang.profileAriaLabel}</span>
+                </Button>
+              </HoverCardTrigger>
+              <HoverCardContent className="w-60" align="end">
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center gap-4">
+                    <Avatar className="size-12">
+                      <AvatarImage src="" alt={navLang.profileName} />
+                      <AvatarFallback>
+                        {navLang.profileName.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-semibold">
+                        {navLang.profileName}
+                      </h4>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Link
+                      href="/orders"
+                      className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                    >
+                      {navLang.linkCartHistory}
+                    </Link>
+                  </div>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
           </div>
         </div>
       </div>

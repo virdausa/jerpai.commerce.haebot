@@ -8,6 +8,8 @@ interface NavigationLang {
   cartAriaLabel: string;
   profileAriaLabel: string;
   wishlistAriaLabel: string;
+  linkCartHistory: string;
+  profileName: string;
   // Sidebar
   navigationLabel: string;
 }
@@ -22,6 +24,8 @@ const lang: NavigationLang = {
   cartAriaLabel: "Keranjang",
   profileAriaLabel: "Profil",
   wishlistAriaLabel: "Daftar Keinginan",
+  linkCartHistory: "Riwayat Belanja",
+  profileName: "Nama Pengguna",
   // Sidebar
   navigationLabel: "Navigasi",
 };
