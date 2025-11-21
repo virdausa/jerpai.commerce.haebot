@@ -1,9 +1,9 @@
 "use client";
 
-import checkoutLang from "@/lang/id/checkout/checkout.lang";
-import commonLang from "@/lang/id/common.lang";
+// import commonLang from "@/lang/id/common.lang";
+// import Link from "next/link";
 
-import Link from "next/link";
+import checkoutLang from "@/lang/id/checkout/checkout.lang";
 import { CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatIDR } from "@/lib/utils";
@@ -30,9 +30,9 @@ function CheckoutActions({ order }: { order: OrderData }) {
   return (
     <CardContent className="space-y-3">
       <div className="flex flex-col gap-3">
-        <Button asChild variant="outline-primary" size="lg">
+        {/* <Button asChild variant="outline-primary" size="lg">
           <Link href="/">{commonLang.continueShopping}</Link>
-        </Button>
+        </Button> */}
         <Button
           asChild
           size="lg"
