@@ -17,7 +17,7 @@ export async function generateMetadata({
   const decodedName = decodeURIComponent(productName);
 
   return {
-    title: `${decodedName} | Jerpai Shop`,
+    title: `${decodedName} | HaeBot Shop`,
     description: `Buy ${decodedName} at the best price.`,
   };
 }

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -16,7 +17,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Jerpai",
+  title: "HaeBot",
   description: "Toko industri dan suku cadang",
 };
 
@@ -35,6 +36,7 @@ export default function RootLayout({
               <div className="flex w-full flex-col">
                 <Header />
                 <main className="w-full">{children}</main>
+                <Footer />
               </div>
             </WishlistStoreProvider>
           </CartStoreProvider>

@@ -2,7 +2,7 @@ import { ProductList } from "@/features/items/components/product-list";
 import { fetchItems } from "@/features/items/actions/fetch-items";
 
 export const metadata = {
-  title: "Produk | Jerpai",
+  title: "Produk | HaeBot",
   description: "Jelajahi koleksi produk kami",
 };
 
