@@ -7,6 +7,18 @@ import { lang as cartLang } from "@/lang/id/cart/cart.lang";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CartItem } from "./cart-item";
 import { useCartStore } from "@/features/cart/providers/cart-store-provider";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ShoppingCart } from "lucide-react";
+import commonLang from "@/lang/id/common.lang";
 
 function CartItemList() {
   const { items } = useCartStore((s) => s);
@@ -50,7 +62,28 @@ function CartItemList() {
           className="flex snap-x snap-mandatory flex-col gap-3 overflow-y-auto overscroll-y-contain scroll-smooth py-2 md:gap-4 md:py-3 lg:gap-5"
         >
           {items.length === 0 ? (
-            <div className="text-muted-foreground">{cartLang.emptyCart}</div>
+            <Empty className="border">
+              <EmptyHeader>
+                <EmptyMedia variant="icon" aria-hidden="true">
+                  <ShoppingCart className="size-6" aria-hidden="true" />
+                </EmptyMedia>
+                <EmptyTitle>{cartLang.emptyCart}</EmptyTitle>
+                <EmptyDescription>
+                  {cartLang.emptyCartDescription}
+                </EmptyDescription>
+              </EmptyHeader>
+              <EmptyContent>
+                <Button
+                  asChild
+                  aria-label={commonLang.continueShopping}
+                  variant="outline-primary"
+                  size="lg"
+                  className="h-12 md:h-9"
+                >
+                  <Link href="/products">{commonLang.continueShopping}</Link>
+                </Button>
+              </EmptyContent>
+            </Empty>
           ) : (
             items.map((cartItem) => (
               <div

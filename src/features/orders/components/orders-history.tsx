@@ -6,6 +6,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import { Receipt } from "lucide-react";
+import commonLang from "@/lang/id/common.lang";
 
 import ordersLang from "@/lang/id/orders/orders.lang";
 import { formatIDR } from "@/lib/utils";
@@ -52,12 +62,28 @@ function OrdersHistory() {
       {orders.length === 0 ? (
         <Card>
           <CardContent className="p-6">
-            <div className="flex flex-col items-center gap-4">
-              <p className="text-muted-foreground">{ordersLang.empty}</p>
-              <Button asChild>
-                <Link href="/products">Produk</Link>
-              </Button>
-            </div>
+            <Empty className="border">
+              <EmptyHeader>
+                <EmptyMedia variant="icon" aria-hidden="true">
+                  <Receipt className="size-6" aria-hidden="true" />
+                </EmptyMedia>
+                <EmptyTitle>{ordersLang.empty}</EmptyTitle>
+                <EmptyDescription>
+                  {ordersLang.emptyDescription}
+                </EmptyDescription>
+              </EmptyHeader>
+              <EmptyContent>
+                <Button
+                  asChild
+                  variant="outline-primary"
+                  aria-label={commonLang.startShopping}
+                  size="lg"
+                  className="h-12 md:h-9"
+                >
+                  <Link href="/products">{commonLang.startShopping}</Link>
+                </Button>
+              </EmptyContent>
+            </Empty>
           </CardContent>
         </Card>
       ) : (

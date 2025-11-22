@@ -3,6 +3,7 @@ interface CartLang {
   summaryTitle: string;
   productsInCart: string;
   emptyCart: string;
+  emptyCartDescription?: string;
   cartItemList: string;
   subtotal: string;
   discount: string;
@@ -33,6 +34,7 @@ const lang: CartLang = {
   summaryTitle: "Ringkasan Belanja",
   productsInCart: "Produk di Keranjang",
   emptyCart: "Keranjang kosong",
+  emptyCartDescription: "Tambah produk ke keranjang untuk melanjutkan checkout",
   cartItemList: "Daftar item keranjang",
   subtotal: "Subtotal",
   discount: "Diskon",

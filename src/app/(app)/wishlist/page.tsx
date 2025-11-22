@@ -12,6 +12,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import { Heart } from "lucide-react";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -52,13 +61,28 @@ export default function WishlistPage() {
       <div>
         <Card>
           <CardContent className="p-6">
-            <div className="flex flex-col items-center gap-4">
-              <h1 className="text-2xl font-semibold">{wishlistLang.title}</h1>
-              <p className="text-muted-foreground">{wishlistLang.empty}</p>
-              <Button asChild>
-                <Link href="/products">{wishlistLang.browseProducts}</Link>
-              </Button>
-            </div>
+            <Empty className="border">
+              <EmptyHeader>
+                <EmptyMedia variant="icon" aria-hidden="true">
+                  <Heart className="size-6" aria-hidden="true" />
+                </EmptyMedia>
+                <EmptyTitle>{wishlistLang.empty}</EmptyTitle>
+                <EmptyDescription>
+                  {wishlistLang.emptyDescription}
+                </EmptyDescription>
+              </EmptyHeader>
+              <EmptyContent>
+                <Button
+                  asChild
+                  variant="outline-primary"
+                  aria-label={wishlistLang.browseProducts}
+                  size="lg"
+                  className="h-12 md:h-9"
+                >
+                  <Link href="/products">{wishlistLang.browseProducts}</Link>
+                </Button>
+              </EmptyContent>
+            </Empty>
           </CardContent>
         </Card>
       </div>

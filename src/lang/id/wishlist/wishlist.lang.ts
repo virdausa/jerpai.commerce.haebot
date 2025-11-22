@@ -2,6 +2,7 @@ interface WishlistLang {
   title: string;
   titleCount: (count: number) => string;
   empty: string;
+  emptyDescription?: string;
   browseProducts: string;
   sortLabel: string;
   dateDesc: string;
@@ -22,6 +23,7 @@ const lang: WishlistLang = {
   title: "Daftar Keinginan",
   titleCount: (count: number) => `Daftar Keinginan (${count})`,
   empty: "Daftar keinginan Anda kosong.",
+  emptyDescription: "Simpan produk favorit Anda untuk dilihat nanti",
   browseProducts: "Lihat produk",
   sortLabel: "Urutkan",
   dateDesc: "Tanggal ditambahkan (terbaru)",

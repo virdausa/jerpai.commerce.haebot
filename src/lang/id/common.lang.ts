@@ -1,6 +1,7 @@
 interface CommonLang {
   seeAll: string;
   continueShopping: string;
+  startShopping?: string;
   addToCart: string;
   addedToCart: (itemName: string) => string;
   paginationPrevLabel: string;
@@ -15,6 +16,7 @@ interface CommonLang {
 const lang: CommonLang = {
   seeAll: "Lihat Semua",
   continueShopping: "Lanjut Belanja",
+  startShopping: "Mulai Belanja",
   addToCart: "Tambah ke Keranjang",
   addedToCart: (itemName: string) => `${itemName} ditambahkan ke keranjang`,
   paginationPrevLabel: "Sebelumnya",
