@@ -34,7 +34,9 @@ function ItemCard({ item, showLatestBadge }: ItemCardProps) {
   const image = item.images?.[0];
   const imageUrl = image?.path ? getFullImageUrl(image.path) : placeholder;
 
-  function handleAddToCart() {
+  function handleAddToCart(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    event.stopPropagation();
     const isInCart = items.some((cartItem) => cartItem.item.id === item.id);
     if (isInCart) {
       updateItemQuantity(item.id, 1);
@@ -42,6 +44,26 @@ function ItemCard({ item, showLatestBadge }: ItemCardProps) {
       addItem({ item, quantity: 1 });
     }
     toast.success(commonLang.addedToCart(item.name));
+  }
+
+  function handleWishlistToggle(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    event.stopPropagation();
+    const isWishlisted = wishlistItems.some((w) => w.item.id === item.id);
+    if (!isWishlisted && wishlistItems.length >= MAX_ITEMS) {
+      toast.error(wishlistLang.limitReached(MAX_ITEMS));
+      return;
+    }
+    const ok = toggle(item);
+    if (!ok) {
+      toast.error(wishlistLang.storageError);
+      return;
+    }
+    if (isWishlisted) {
+      toast.info(wishlistLang.removed(item.name));
+    } else {
+      toast.success(wishlistLang.added(item.name));
+    }
   }
 
   return (
@@ -126,25 +148,7 @@ function ItemCard({ item, showLatestBadge }: ItemCardProps) {
                   : wishlistLang.addAria
               }
               aria-pressed={wishlistItems.some((w) => w.item.id === item.id)}
-              onClick={() => {
-                const isWishlisted = wishlistItems.some(
-                  (w) => w.item.id === item.id
-                );
-                if (!isWishlisted && wishlistItems.length >= MAX_ITEMS) {
-                  toast.error(wishlistLang.limitReached(MAX_ITEMS));
-                  return;
-                }
-                const ok = toggle(item);
-                if (!ok) {
-                  toast.error(wishlistLang.storageError);
-                  return;
-                }
-                if (isWishlisted) {
-                  toast.info(wishlistLang.removed(item.name));
-                } else {
-                  toast.success(wishlistLang.added(item.name));
-                }
-              }}
+              onClick={handleWishlistToggle}
             >
               <Heart className="fill-muted size-5 md:size-4" />
             </Button>
