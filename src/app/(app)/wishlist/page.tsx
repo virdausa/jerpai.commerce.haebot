@@ -49,7 +49,7 @@ export default function WishlistPage() {
 
   if (items.length === 0) {
     return (
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div>
         <Card>
           <CardContent className="p-6">
             <div className="flex flex-col items-center gap-4">

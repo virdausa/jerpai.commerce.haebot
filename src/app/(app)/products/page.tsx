@@ -17,7 +17,7 @@ export default async function ProductsPage({
   const initialItems = await fetchItems(Number(page) || 1, q ?? "");
 
   return (
-    <div className="mx-auto max-w-7xl px-1 py-3 md:px-6 md:py-10">
+    <div>
       <h1 className="mb-6 text-2xl font-extrabold uppercase md:text-3xl">
         Produk
       </h1>
