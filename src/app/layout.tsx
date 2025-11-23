@@ -11,6 +11,7 @@ import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import { CartStoreProvider } from "@/features/cart/providers/cart-store-provider";
 import { WishlistStoreProvider } from "@/features/wishlist/providers/wishlist-store-provider";
+import { AuthStoreProvider } from "@/features/auth/providers/auth-store-provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -32,25 +33,27 @@ export default function RootLayout({
       <body className={`${inter.className} text-foreground bg-background`}>
         <SidebarProvider defaultOpen={false}>
           <AppSidebar />
-          <CartStoreProvider>
-            <WishlistStoreProvider>
-              <div className="flex w-full flex-col">
-                <Suspense
-                  fallback={
-                    <header className="bg-background/95 sticky top-0 z-50 border-b backdrop-blur">
-                      <div className="mx-auto max-w-7xl px-6">
-                        <div className="flex h-20 items-center gap-4" />
-                      </div>
-                    </header>
-                  }
-                >
-                  <Header />
-                </Suspense>
-                <main className="w-full">{children}</main>
-                <Footer />
-              </div>
-            </WishlistStoreProvider>
-          </CartStoreProvider>
+          <AuthStoreProvider>
+            <CartStoreProvider>
+              <WishlistStoreProvider>
+                <div className="flex w-full flex-col">
+                  <Suspense
+                    fallback={
+                      <header className="bg-background/95 sticky top-0 z-50 border-b backdrop-blur">
+                        <div className="mx-auto max-w-7xl px-6">
+                          <div className="flex h-20 items-center gap-4" />
+                        </div>
+                      </header>
+                    }
+                  >
+                    <Header />
+                  </Suspense>
+                  <main className="w-full">{children}</main>
+                  <Footer />
+                </div>
+              </WishlistStoreProvider>
+            </CartStoreProvider>
+          </AuthStoreProvider>
         </SidebarProvider>
         <Toaster richColors />
       </body>

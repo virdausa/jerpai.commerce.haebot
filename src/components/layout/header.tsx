@@ -39,10 +39,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { navigationData } from "@/data/navigation.data";
 import { useCartStore } from "@/features/cart/providers/cart-store-provider";
 import { useWishlistStore } from "@/features/wishlist/providers/wishlist-store-provider";
+import { useAuthStore } from "@/features/auth/providers/auth-store-provider";
 
 function Header() {
   const { items } = useCartStore((state) => state);
   const { items: wishlistItems } = useWishlistStore((state) => state);
+  const { user, isAuthenticated, logout } = useAuthStore((state) => state);
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(searchParams.get("q") || "");
@@ -53,11 +55,17 @@ function Header() {
   }, [searchParams]);
 
   function handleLogout() {
+    // Clear auth store
+    logout();
+
+    // Dispatch logout event for any listeners
     try {
       window.dispatchEvent(new CustomEvent("app-logout"));
     } catch {}
+
+    // Navigate to home
     try {
-      window.location.assign("/");
+      router.push("/");
     } catch {}
   }
 
@@ -171,42 +179,89 @@ function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-60" sideOffset={6} align="end">
-                <DropdownMenuLabel>
-                  <div className="flex items-center gap-3">
-                    <Avatar className="size-9">
-                      <AvatarImage src="" alt={navLang.profileName} />
-                      <AvatarFallback>
-                        {navLang.profileName.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="text-sm font-semibold">
-                      {navLang.profileName}
-                    </div>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem asChild>
-                    <Link href="/account" className="flex items-center gap-2">
-                      <User className="size-4" /> {navLang.linkAccount}
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/orders" className="flex items-center gap-2">
-                      <ShoppingBag className="size-4" />{" "}
-                      {navLang.linkCartHistory}
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/settings" className="flex items-center gap-2">
-                      <Settings className="size-4" /> {navLang.linkSettings}
-                    </Link>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onSelect={handleLogout} variant="destructive">
-                  <LogOut className="size-4" /> {navLang.linkLogout}
-                </DropdownMenuItem>
+                {isAuthenticated && user ? (
+                  <>
+                    <DropdownMenuLabel>
+                      <div className="flex items-center gap-3">
+                        <Avatar className="size-9">
+                          <AvatarImage src="" alt={user.name} />
+                          <AvatarFallback>
+                            {user.name.charAt(0).toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col">
+                          <div className="text-sm font-semibold">
+                            {user.name}
+                          </div>
+                          <div className="text-muted-foreground text-xs">
+                            {user.email}
+                          </div>
+                        </div>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href="/account"
+                          className="flex items-center gap-2"
+                        >
+                          <User className="size-4" /> {navLang.linkAccount}
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href="/orders"
+                          className="flex items-center gap-2"
+                        >
+                          <ShoppingBag className="size-4" />
+                          {navLang.linkCartHistory}
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href="/settings"
+                          className="flex items-center gap-2"
+                        >
+                          <Settings className="size-4" /> {navLang.linkSettings}
+                        </Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onSelect={handleLogout}
+                      variant="destructive"
+                    >
+                      <LogOut className="size-4" /> {navLang.linkLogout}
+                    </DropdownMenuItem>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenuLabel>
+                      <div className="text-sm font-semibold">
+                        {navLang.guestName || "Guest"}
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem asChild>
+                        <Link href="/login" className="flex items-center gap-2">
+                          <User className="size-4" />{" "}
+                          {navLang.linkLogin || "Login"}
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href="/register"
+                          className="flex items-center gap-2"
+                        >
+                          <User2 className="size-4" />{" "}
+                          {navLang.linkRegister || "Register"}
+                        </Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

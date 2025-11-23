@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 const envSchema = z.object({
+  NEXT_PUBLIC_ERP_URL: z.url(),
   ERP_URL: z.url(),
   ERP_SPACE: z.string(),
   ERP_SENDER: z.string(),
@@ -10,4 +11,8 @@ const envSchema = z.object({
     .default("development"),
 });
 
-export const env = envSchema.parse(process.env);
+type EnvirontmentVariables = z.infer<typeof envSchema>;
+
+const env = process.env as EnvirontmentVariables;
+
+export { env, envSchema };

@@ -15,6 +15,9 @@ interface NavigationLang {
   wishlistAriaLabel: string;
   linkCartHistory: string;
   profileName: string;
+  guestName: string;
+  linkLogin: string;
+  linkRegister: string;
   // Sidebar
   navigationLabel: string;
 }
@@ -36,6 +39,9 @@ const lang: NavigationLang = {
   wishlistAriaLabel: "Daftar Keinginan",
   linkCartHistory: "Riwayat Belanja",
   profileName: "Nama Pengguna",
+  guestName: "Tamu",
+  linkLogin: "Masuk",
+  linkRegister: "Daftar",
   // Sidebar
   navigationLabel: "Navigasi",
 };

@@ -1,8 +1,11 @@
 import { env } from "@/config/env.config";
 import ky from "ky";
 
+const prefix =
+  env.ERP_URL ?? env.NEXT_PUBLIC_ERP_URL ?? "https://bodo.nerpai.space";
+
 const erpApi = ky.create({
-  prefixUrl: `${env.ERP_URL}/api`,
+  prefixUrl: `${prefix}/api`,
   headers: {
     "Content-Type": "application/json",
   },
