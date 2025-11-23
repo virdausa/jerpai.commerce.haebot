@@ -2,6 +2,7 @@ import lang from "@/lang/id/home/latest-products.lang";
 import { InfiniteItemGrid } from "@/features/items/components/infinite-item-grid";
 import { SearchBar } from "@/features/items/components/search-bar";
 import { getItems } from "@/features/items/services/get-items";
+import { HeroCarousel } from "@/features/home/components/hero-carousel";
 
 export const dynamic = "force-dynamic";
 
@@ -10,6 +11,10 @@ export default async function Home() {
 
   return (
     <>
+      {/* Hero Carousel Section */}
+      <HeroCarousel />
+
+      {/* Products Section */}
       <div className="mx-auto max-w-7xl px-1 py-3 md:px-6 md:py-10">
         <h2 className="mb-3 text-xl font-extrabold uppercase md:mb-6 md:text-2xl">
           {lang.titleLatestItems}
