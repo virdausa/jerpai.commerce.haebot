@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 
 import footerLang from "@/lang/id/layout/footer.lang";
 import { NewsletterForm } from "@/features/newsletter/components/newsletter-form";
+import { navigationData } from "@/data/navigation.data";
+import { socialData } from "@/data/social.data";
+import { contactData } from "@/data/contact.data";
 
 function Footer() {
   const year = new Date().getFullYear();
@@ -23,34 +25,16 @@ function Footer() {
           <div className="space-y-3">
             <h4 className="text-base font-semibold">{footerLang.followUs}</h4>
             <div className="flex items-center gap-3">
-              <Link
-                href="https://facebook.com"
-                aria-label={footerLang.socialFacebookAria}
-                className="hover:text-primary transition-colors"
-              >
-                <Facebook className="size-5" />
-              </Link>
-              <Link
-                href="https://twitter.com"
-                aria-label={footerLang.socialTwitterAria}
-                className="hover:text-primary transition-colors"
-              >
-                <Twitter className="size-5" />
-              </Link>
-              <Link
-                href="https://instagram.com"
-                aria-label={footerLang.socialInstagramAria}
-                className="hover:text-primary transition-colors"
-              >
-                <Instagram className="size-5" />
-              </Link>
-              <Link
-                href="https://linkedin.com"
-                aria-label={footerLang.socialLinkedInAria}
-                className="hover:text-primary transition-colors"
-              >
-                <Linkedin className="size-5" />
-              </Link>
+              {socialData.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.url}
+                  aria-label={footerLang.socialAria(item.name)}
+                  className="hover:text-primary transition-colors"
+                >
+                  <item.icon className="size-5" />
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -67,30 +51,16 @@ function Footer() {
                   {footerLang.linkHome}
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/products"
-                  className="hover:text-primary transition-colors"
-                >
-                  Produk
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/about"
-                  className="hover:text-primary transition-colors"
-                >
-                  Tentang
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="hover:text-primary transition-colors"
-                >
-                  {footerLang.linkContact}
-                </Link>
-              </li>
+              {navigationData.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="hover:text-primary transition-colors"
+                  >
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
 
@@ -99,28 +69,19 @@ function Footer() {
               {footerLang.contactTitle}
             </h4>
             <div className="space-y-1 text-sm">
-              <p>
-                <span className="text-muted-foreground mr-2">
-                  {footerLang.contactEmailLabel}:
-                </span>
-                <a
-                  href={`mailto:${footerLang.contactEmailValue}`}
-                  className="hover:text-primary underline underline-offset-4 transition-colors"
-                >
-                  {footerLang.contactEmailValue}
-                </a>
-              </p>
-              <p>
-                <span className="text-muted-foreground mr-2">
-                  {footerLang.contactPhoneLabel}:
-                </span>
-                <a
-                  href={`tel:${footerLang.contactPhoneValue.replace(/\s/g, "")}`}
-                  className="hover:text-primary underline underline-offset-4 transition-colors"
-                >
-                  {footerLang.contactPhoneValue}
-                </a>
-              </p>
+              {contactData.map((item) => (
+                <p key={item.name}>
+                  <span className="text-muted-foreground mr-2">
+                    {item.name}:
+                  </span>
+                  <a
+                    href={item.href}
+                    className="hover:text-primary underline underline-offset-4 transition-colors"
+                  >
+                    {item.value}
+                  </a>
+                </p>
+              ))}
             </div>
           </div>
         </div>

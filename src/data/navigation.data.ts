@@ -1,4 +1,8 @@
-import { HomeIcon, CirclePercentIcon, InfoIcon } from "lucide-react";
+import {
+  HomeIcon,
+  // CirclePercentIcon,
+  InfoIcon,
+} from "lucide-react";
 
 import lang from "@/lang/id/layout/navigation.lang";
 
@@ -8,11 +12,11 @@ const navigationData = [
     href: "/products",
     icon: HomeIcon,
   },
-  {
-    title: lang.linkPromotions,
-    href: "/promotions",
-    icon: CirclePercentIcon,
-  },
+  // {
+  //   title: lang.linkPromotions,
+  //   href: "/promotions",
+  //   icon: CirclePercentIcon,
+  // },
   {
     title: lang.linkAbout,
     href: "/about",
