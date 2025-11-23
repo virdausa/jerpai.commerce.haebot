@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Suspense } from "react";
 
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { Header } from "@/components/layout/header";
@@ -34,7 +35,17 @@ export default function RootLayout({
           <CartStoreProvider>
             <WishlistStoreProvider>
               <div className="flex w-full flex-col">
-                <Header />
+                <Suspense
+                  fallback={
+                    <header className="bg-background/95 sticky top-0 z-50 border-b backdrop-blur">
+                      <div className="mx-auto max-w-7xl px-6">
+                        <div className="flex h-20 items-center gap-4" />
+                      </div>
+                    </header>
+                  }
+                >
+                  <Header />
+                </Suspense>
                 <main className="w-full">{children}</main>
                 <Footer />
               </div>
