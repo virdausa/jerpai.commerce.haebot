@@ -7,17 +7,30 @@ import Image from "next/image";
 
 import haebot from "@/assets/logos/haebot.png";
 
-import { Search, ShoppingCart, User2, Heart } from "lucide-react";
+import {
+  Search,
+  ShoppingCart,
+  ShoppingBag,
+  User2,
+  Heart,
+  LogOut,
+  Settings,
+  User,
+} from "lucide-react";
 
 import { SidebarTrigger } from "../ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { navigationData } from "@/data/navigation.data";
 import { useCartStore } from "@/features/cart/providers/cart-store-provider";
@@ -26,6 +39,15 @@ import { useWishlistStore } from "@/features/wishlist/providers/wishlist-store-p
 function Header() {
   const { items } = useCartStore((state) => state);
   const { items: wishlistItems } = useWishlistStore((state) => state);
+
+  function handleLogout() {
+    try {
+      window.dispatchEvent(new CustomEvent("app-logout"));
+    } catch {}
+    try {
+      window.location.assign("/");
+    } catch {}
+  }
 
   return (
     <header className="bg-background/95 sticky top-0 z-50 border-b backdrop-blur">
@@ -96,8 +118,8 @@ function Header() {
                 <span className="sr-only">{navLang.cartAriaLabel}</span>
               </Button>
             </Link>
-            <HoverCard openDelay={500}>
-              <HoverCardTrigger asChild>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
@@ -106,33 +128,46 @@ function Header() {
                   <User2 className="size-5" />
                   <span className="sr-only">{navLang.profileAriaLabel}</span>
                 </Button>
-              </HoverCardTrigger>
-              <HoverCardContent className="w-60" align="end">
-                <div className="flex flex-col gap-4">
-                  <div className="flex items-center gap-4">
-                    <Avatar className="size-12">
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-60" sideOffset={6} align="end">
+                <DropdownMenuLabel>
+                  <div className="flex items-center gap-3">
+                    <Avatar className="size-9">
                       <AvatarImage src="" alt={navLang.profileName} />
                       <AvatarFallback>
                         {navLang.profileName.charAt(0)}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="space-y-1">
-                      <h4 className="text-sm font-semibold">
-                        {navLang.profileName}
-                      </h4>
+                    <div className="text-sm font-semibold">
+                      {navLang.profileName}
                     </div>
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <Link
-                      href="/orders"
-                      className="text-muted-foreground hover:text-foreground text-sm transition-colors"
-                    >
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem asChild>
+                    <Link href="/account" className="flex items-center gap-2">
+                      <User className="size-4" /> {navLang.linkAccount}
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/orders" className="flex items-center gap-2">
+                      <ShoppingBag className="size-4" />{" "}
                       {navLang.linkCartHistory}
                     </Link>
-                  </div>
-                </div>
-              </HoverCardContent>
-            </HoverCard>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/settings" className="flex items-center gap-2">
+                      <Settings className="size-4" /> {navLang.linkSettings}
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onSelect={handleLogout} variant="destructive">
+                  <LogOut className="size-4" /> {navLang.linkLogout}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>

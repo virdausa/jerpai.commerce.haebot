@@ -3,6 +3,9 @@ interface NavigationLang {
   linkProducts: string;
   linkPromotions: string;
   linkAbout: string;
+  linkAccount: string;
+  linkSettings: string;
+  linkLogout: string;
   // Header
   searchPlaceholder: string;
   cartAriaLabel: string;
@@ -19,6 +22,9 @@ const lang: NavigationLang = {
   linkProducts: "Produk",
   linkPromotions: "Promo",
   linkAbout: "Tentang",
+  linkAccount: "Profil",
+  linkSettings: "Pengaturan",
+  linkLogout: "Keluar",
   // Header
   searchPlaceholder: "Cari produk...",
   cartAriaLabel: "Keranjang",
