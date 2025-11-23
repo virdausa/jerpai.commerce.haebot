@@ -19,7 +19,7 @@ const navigationData = [
   // },
   {
     title: lang.linkAbout,
-    href: "/about",
+    href: "https://haebot.com",
     icon: InfoIcon,
   },
 ];
