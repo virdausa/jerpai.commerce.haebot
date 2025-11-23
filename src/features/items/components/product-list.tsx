@@ -192,7 +192,7 @@ export function ProductList({ initialItems, initialTotal }: ProductListProps) {
       ) : (
         <>
           {items.length > 0 ? (
-            <div className="grid grid-cols-2 gap-x-1 gap-y-4 md:gap-x-5 md:gap-y-8 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-x-1 gap-y-4 md:gap-x-5 md:gap-y-8 lg:grid-cols-5">
               {items.map((item) => (
                 <ItemCard key={item.id} item={item} />
               ))}

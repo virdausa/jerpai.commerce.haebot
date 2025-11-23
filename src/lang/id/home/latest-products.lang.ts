@@ -11,7 +11,7 @@ interface LatestProductsLang {
 
 const lang: LatestProductsLang = {
   // Title
-  titleLatestItems: "Produk Terbaru",
+  titleLatestItems: "Daftar Produk",
 
   // Badges
   badgeLatest: "Terbaru",

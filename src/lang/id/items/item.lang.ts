@@ -12,6 +12,8 @@ interface ItemLang {
   dimensions: string;
   stock: string;
   backToProducts: string;
+  loadingMore: string;
+  endOfList: string;
 }
 
 const lang: ItemLang = {
@@ -28,6 +30,8 @@ const lang: ItemLang = {
   dimensions: "Dimensi",
   stock: "Stok",
   backToProducts: "Kembali ke Produk",
+  loadingMore: "Memuat produk...",
+  endOfList: "Tidak ada produk lagi",
 };
 
 export type { ItemLang };

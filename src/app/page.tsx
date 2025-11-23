@@ -1,14 +1,11 @@
 import lang from "@/lang/id/home/latest-products.lang";
-import commonLang from "@/lang/id/common.lang";
-
-import { Button } from "@/components/ui/button";
-import { ItemGrid } from "@/features/items/components/item-grid";
+import { InfiniteItemGrid } from "@/features/items/components/infinite-item-grid";
 import { getItems } from "@/features/items/services/get-items";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const items = await getItems({ length: 4 });
+  const items = await getItems({ length: 10 });
 
   return (
     <>
@@ -16,14 +13,11 @@ export default async function Home() {
         <h2 className="mb-3 text-xl font-extrabold uppercase md:mb-6 md:text-2xl">
           {lang.titleLatestItems}
         </h2>
-        <ItemGrid items={items.data} />
-        <Button
-          className="mx-auto mt-4 block md:mt-6"
-          size="lg"
-          variant="outline-primary"
-        >
-          {commonLang.seeAll}
-        </Button>
+        <InfiniteItemGrid
+          initialItems={items.data}
+          initialTotal={items.recordsFiltered}
+          batchSize={10}
+        />
       </div>
     </>
   );

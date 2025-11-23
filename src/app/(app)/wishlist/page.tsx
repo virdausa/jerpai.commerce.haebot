@@ -90,7 +90,7 @@ export default function WishlistPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-8">
+    <div>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-semibold">
           {wishlistLang.titleCount(items.length)}
@@ -124,7 +124,7 @@ export default function WishlistPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5">
         {sorted.map((w) => (
           <ItemCard key={`wl-${w.item.id}`} item={w.item} />
         ))}
