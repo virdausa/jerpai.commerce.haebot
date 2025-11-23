@@ -86,7 +86,7 @@ export function InfiniteItemGrid({
         const viewport = window.innerHeight;
         const full = document.documentElement.scrollHeight;
         const distance = full - (scrolled + viewport);
-        if (distance < 300) {
+        if (distance < 500) {
           loadMore();
         }
       }, 300);
