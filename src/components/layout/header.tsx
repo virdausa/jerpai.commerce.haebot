@@ -4,6 +4,10 @@ import navLang from "@/lang/id/layout/navigation.lang";
 
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+import itemLang from "@/lang/id/items/item.lang";
 
 import haebot from "@/assets/logos/haebot.png";
 
@@ -39,6 +43,14 @@ import { useWishlistStore } from "@/features/wishlist/providers/wishlist-store-p
 function Header() {
   const { items } = useCartStore((state) => state);
   const { items: wishlistItems } = useWishlistStore((state) => state);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get("q") || "");
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    setQuery(searchParams.get("q") || "");
+  }, [searchParams]);
 
   function handleLogout() {
     try {
@@ -48,6 +60,25 @@ function Header() {
       window.location.assign("/");
     } catch {}
   }
+
+  const handleSearchSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
+    try {
+      const trimmed = query.trim();
+      const sanitized = trimmed.replace(/[\r\n\t\u0000-\u001F]+/g, "");
+      if (sanitized.length === 0) {
+        toast.info(itemLang.emptySearchShowsAll);
+        router.push("/products");
+        return;
+      }
+      const encoded = encodeURIComponent(sanitized);
+      router.push(`/products?q=${encoded}`);
+    } finally {
+      setTimeout(() => setSubmitting(false), 300);
+    }
+  };
 
   return (
     <header className="bg-background/95 sticky top-0 z-50 border-b backdrop-blur">
@@ -78,13 +109,23 @@ function Header() {
           </div>
 
           <div className="flex-1">
-            <div className="relative">
+            <form
+              onSubmit={handleSearchSubmit}
+              aria-label={navLang.searchLabel}
+              aria-busy={submitting ? "true" : "false"}
+              className="relative"
+            >
               <Search className="text-muted-foreground absolute top-1/2 left-3 size-4 -translate-y-1/2" />
               <Input
+                id="header-search-input"
+                name="q"
+                inputMode="search"
                 placeholder={navLang.searchPlaceholder}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
                 className="w-full pl-9 md:max-w-lg"
               />
-            </div>
+            </form>
           </div>
 
           <div className="flex items-center gap-2">

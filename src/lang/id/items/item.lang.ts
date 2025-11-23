@@ -3,6 +3,7 @@ interface ItemLang {
   typeFallback: string;
   noProductsFound: string;
   failedToLoadItems: string;
+  emptySearchShowsAll: string;
   addToCart: string;
   addToWishlist: string;
   description: string;
@@ -21,6 +22,7 @@ const lang: ItemLang = {
   typeFallback: "Produk",
   noProductsFound: "Tidak ada produk",
   failedToLoadItems: "Gagal memuat produk",
+  emptySearchShowsAll: "Kolom pencarian kosong — menampilkan semua produk",
   addToCart: "Tambah ke Keranjang",
   addToWishlist: "Tambah ke Wishlist",
   description: "Deskripsi",

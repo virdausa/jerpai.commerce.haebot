@@ -7,7 +7,9 @@ interface NavigationLang {
   linkSettings: string;
   linkLogout: string;
   // Header
+  searchLabel: string;
   searchPlaceholder: string;
+  searchButtonLabel: string;
   cartAriaLabel: string;
   profileAriaLabel: string;
   wishlistAriaLabel: string;
@@ -26,7 +28,9 @@ const lang: NavigationLang = {
   linkSettings: "Pengaturan",
   linkLogout: "Keluar",
   // Header
+  searchLabel: "Cari Produk",
   searchPlaceholder: "Cari produk...",
+  searchButtonLabel: "Cari",
   cartAriaLabel: "Keranjang",
   profileAriaLabel: "Profil",
   wishlistAriaLabel: "Daftar Keinginan",
