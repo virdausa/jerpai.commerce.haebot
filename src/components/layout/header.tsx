@@ -203,7 +203,7 @@ function Header() {
                     <DropdownMenuGroup>
                       <DropdownMenuItem asChild>
                         <Link
-                          href="/account"
+                          href="/profile"
                           className="flex items-center gap-2"
                         >
                           <User className="size-4" /> {navLang.linkAccount}

@@ -2,6 +2,7 @@ interface AuthLang {
   // Page titles
   registerTitle: string;
   loginTitle: string;
+  profileTitle: string;
 
   // Form labels
   nameLabel: string;
@@ -42,12 +43,26 @@ interface AuthLang {
   registerError: string;
   loginError: string;
   genericError: string;
+
+  // Profile page
+  profileUsername: string;
+  profileEmail: string;
+  profilePhone: string;
+  profileAddress: string;
+  profileBirthDate: string;
+  profileSex: string;
+  profileIdCardNumber: string;
+  profileStatus: string;
+  profileCreatedAt: string;
+  profileUpdatedAt: string;
+  profileNotAvailable: string;
 }
 
 const lang: AuthLang = {
   // Page titles
   registerTitle: "Daftar Akun Baru",
   loginTitle: "Masuk ke Akun Anda",
+  profileTitle: "Profil Saya",
 
   // Form labels
   nameLabel: "Nama Lengkap",
@@ -88,6 +103,19 @@ const lang: AuthLang = {
   registerError: "Pendaftaran gagal. Silakan coba lagi.",
   loginError: "Login gagal. Periksa email dan kata sandi Anda.",
   genericError: "Terjadi kesalahan. Silakan coba lagi.",
+
+  // Profile page
+  profileUsername: "Nama Pengguna",
+  profileEmail: "Email",
+  profilePhone: "Nomor Telepon",
+  profileAddress: "Alamat",
+  profileBirthDate: "Tanggal Lahir",
+  profileSex: "Jenis Kelamin",
+  profileIdCardNumber: "Nomor KTP",
+  profileStatus: "Status",
+  profileCreatedAt: "Dibuat Pada",
+  profileUpdatedAt: "Diperbarui Pada",
+  profileNotAvailable: "Tidak tersedia",
 };
 
 export type { AuthLang };
