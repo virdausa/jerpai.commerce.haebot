@@ -18,7 +18,6 @@ import {
   User2,
   Heart,
   LogOut,
-  Settings,
   User,
 } from "lucide-react";
 
@@ -216,14 +215,6 @@ function Header() {
                         >
                           <ShoppingBag className="size-4" />
                           {navLang.linkCartHistory}
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link
-                          href="/settings"
-                          className="flex items-center gap-2"
-                        >
-                          <Settings className="size-4" /> {navLang.linkSettings}
                         </Link>
                       </DropdownMenuItem>
                     </DropdownMenuGroup>
