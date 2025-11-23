@@ -8,7 +8,7 @@ export default async function AppLayout({
 }>) {
   await connection();
   return (
-    <div className="container mx-auto max-w-7xl px-1 py-3 md:px-6 md:py-10">
+    <div className="container mx-auto max-w-7xl px-3 py-6 md:px-6 md:py-10">
       <Breadcrumbs />
       {children}
     </div>
