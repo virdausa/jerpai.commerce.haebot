@@ -94,7 +94,7 @@ function Header() {
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
               <SidebarTrigger className="size-8 md:hidden" />
-              <Link href="/">
+              <Link href="/" className="hidden md:block">
                 <Image
                   src={haebot}
                   alt="Haebot"

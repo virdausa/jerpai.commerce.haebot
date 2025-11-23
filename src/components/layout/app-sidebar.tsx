@@ -13,11 +13,17 @@ import {
 } from "@/components/ui/sidebar";
 import { navigationData } from "@/data/navigation.data";
 import Link from "next/link";
+import Image from "next/image";
+import haebot from "@/assets/logos/haebot.png";
 
 function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarHeader />
+      <SidebarHeader>
+        <Link href="/">
+          <Image src={haebot} alt="Haebot" className="h-8 w-fit md:h-10" />
+        </Link>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroupLabel>{navLang.navigationLabel}</SidebarGroupLabel>
         <SidebarGroupContent>
