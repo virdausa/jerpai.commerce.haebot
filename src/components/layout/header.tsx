@@ -208,16 +208,13 @@ function Header() {
                           <User className="size-4" /> {navLang.linkAccount}
                         </Link>
                       </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link
-                          href="/orders"
-                          className="flex items-center gap-2"
-                        >
-                          <ShoppingBag className="size-4" />
-                          {navLang.linkCartHistory}
-                        </Link>
-                      </DropdownMenuItem>
                     </DropdownMenuGroup>
+                    <DropdownMenuItem asChild>
+                      <Link href="/orders" className="flex items-center gap-2">
+                        <ShoppingBag className="size-4" />
+                        {navLang.linkCartHistory}
+                      </Link>
+                    </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onSelect={handleLogout}
@@ -251,6 +248,12 @@ function Header() {
                         </Link>
                       </DropdownMenuItem>
                     </DropdownMenuGroup>
+                    <DropdownMenuItem asChild>
+                      <Link href="/orders" className="flex items-center gap-2">
+                        <ShoppingBag className="size-4" />
+                        {navLang.linkCartHistory}
+                      </Link>
+                    </DropdownMenuItem>
                   </>
                 )}
               </DropdownMenuContent>
