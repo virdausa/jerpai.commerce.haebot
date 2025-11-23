@@ -5,6 +5,9 @@ import { lang } from "@/lang/id/cart/cart.lang";
 import { CartItemList } from "@/features/cart/components/cart-item-list";
 import { CartSummary } from "@/features/cart/components/cart-summary";
 
+// Note: This is a client component, so we can't export metadata directly
+// The metadata is handled in the parent layout or via next/head
+
 export default function Cart() {
   return (
     <section id="cart-section">

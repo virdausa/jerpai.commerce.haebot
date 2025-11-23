@@ -12,16 +12,14 @@ import "./globals.css";
 import { CartStoreProvider } from "@/features/cart/providers/cart-store-provider";
 import { WishlistStoreProvider } from "@/features/wishlist/providers/wishlist-store-provider";
 import { AuthStoreProvider } from "@/features/auth/providers/auth-store-provider";
+import { defaultMetadata } from "@/config/metadata.config";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "HaeBot",
-  description: "Toko industri dan suku cadang",
-};
+export const metadata: Metadata = defaultMetadata;
 
 export default function RootLayout({
   children,

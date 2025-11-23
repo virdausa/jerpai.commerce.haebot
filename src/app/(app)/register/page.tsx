@@ -11,11 +11,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { generateMetadata as genMeta } from "@/config/metadata.config";
 
-export const metadata: Metadata = {
-  title: "Daftar Akun",
-  description: "Buat akun baru untuk mulai berbelanja",
-};
+export const metadata: Metadata = genMeta({
+  title: "Buat Akun Baru - Daftar HaeBot",
+  description:
+    "Daftar akun HaeBot untuk kemudahan berbelanja suku cadang CNC. Akses fitur eksklusif, riwayat pesanan, dan penawaran khusus untuk pelanggan terdaftar.",
+  noIndex: true,
+});
 
 /**
  * Registration page

@@ -11,11 +11,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { generateMetadata as genMeta } from "@/config/metadata.config";
 
-export const metadata: Metadata = {
-  title: "Masuk",
-  description: "Masuk ke akun Anda",
-};
+export const metadata: Metadata = genMeta({
+  title: "Masuk ke Akun HaeBot",
+  description:
+    "Masuk ke akun HaeBot Anda untuk mengakses riwayat pesanan, wishlist, dan fitur eksklusif lainnya. Login mudah dan aman.",
+  noIndex: true,
+});
 
 /**
  * Login page

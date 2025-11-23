@@ -5,6 +5,14 @@ import { CheckoutActions } from "@/features/checkout/components/checkout-action"
 import { CheckoutContent } from "@/features/checkout/components/checkout-content";
 
 import { getOrder } from "@/features/orders/services/get-order";
+import { generateMetadata as genMeta } from "@/config/metadata.config";
+
+export const metadata = genMeta({
+  title: "Checkout - Proses Pembayaran",
+  description:
+    "Selesaikan pembelian suku cadang CNC Anda dengan proses checkout yang aman dan mudah. Pembayaran cepat, pengiriman terpercaya.",
+  noIndex: true,
+});
 
 export default async function CheckoutPage({
   params,

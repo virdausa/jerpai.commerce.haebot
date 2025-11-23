@@ -1,11 +1,22 @@
 import { z } from "zod";
 import { ProductList } from "@/features/items/components/product-list";
 import { fetchItems } from "@/features/items/actions/fetch-items";
+import { generateMetadata as genMeta } from "@/config/metadata.config";
 
-export const metadata = {
-  title: "Produk | HaeBot",
-  description: "Jelajahi koleksi produk kami",
-};
+export const metadata = genMeta({
+  title: "Katalog Produk Suku Cadang & Mesin CNC",
+  description:
+    "Jelajahi koleksi lengkap suku cadang CNC, mesin CNC, dan komponen presisi. Temukan spindle, motor servo, ball screw, cutting tools, dan berbagai spare parts CNC berkualitas dengan harga terbaik.",
+  keywords: [
+    "katalog produk CNC",
+    "daftar harga CNC",
+    "produk CNC lengkap",
+    "spare parts CNC ready stock",
+    "jual cutting tool",
+    "harga ball screw",
+  ],
+  url: "/products",
+});
 
 export const dynamic = "force-dynamic";
 
