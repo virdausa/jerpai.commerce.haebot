@@ -8,6 +8,7 @@ import { Item } from "@/features/items/types/item";
 import { ItemCard } from "@/features/items/components/item-card";
 import { fetchItemsBatch } from "@/features/items/actions/fetch-items-batch";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface InfiniteItemGridProps {
   initialItems: Item[];
@@ -31,7 +32,8 @@ export function InfiniteItemGrid({
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const [columns, setColumns] = React.useState<number>(1);
 
-  const ROW_HEIGHT = 360;
+  const isMobile = useIsMobile();
+  const ROW_HEIGHT = isMobile ? 240 : 360;
   const debounceRef = React.useRef<number | null>(null);
 
   React.useEffect(() => {
@@ -86,14 +88,15 @@ export function InfiniteItemGrid({
         const viewport = window.innerHeight;
         const full = document.documentElement.scrollHeight;
         const distance = full - (scrolled + viewport);
-        if (distance < 500) {
+        const threshold = isMobile ? 100 : 300;
+        if (distance < threshold) {
           loadMore();
         }
       }, 300);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [loadMore]);
+  }, [loadMore, isMobile]);
 
   const [visibleStart, setVisibleStart] = React.useState<number>(0);
   const [visibleEnd, setVisibleEnd] = React.useState<number>(items.length);
@@ -122,7 +125,7 @@ export function InfiniteItemGrid({
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [virtualize, columns, items.length]);
+  }, [virtualize, columns, items.length, ROW_HEIGHT]);
 
   const totalRows = React.useMemo(() => {
     return Math.ceil(items.length / Math.max(1, columns));
