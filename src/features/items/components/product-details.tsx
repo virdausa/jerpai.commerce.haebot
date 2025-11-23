@@ -123,7 +123,7 @@ export function ProductDetails({ item }: ProductDetailsProps) {
           <p className="text-muted-foreground text-sm font-medium">
             {lang.weight}
           </p>
-          <p className="text-sm">{item.weight} kg</p>
+          <p className="text-sm">{item.weight} g</p>
         </div>
         <div>
           <p className="text-muted-foreground text-sm font-medium">
@@ -137,7 +137,7 @@ export function ProductDetails({ item }: ProductDetailsProps) {
           </p>
           <p className="text-sm">
             {item.inventories?.reduce(
-              (acc, inv) => acc + Number(inv.quantity),
+              (acc, inv) => acc + Number(inv.balance),
               0
             ) || 0}
           </p>
