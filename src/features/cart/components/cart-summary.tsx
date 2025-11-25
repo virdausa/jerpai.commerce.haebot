@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useCartStore } from "@/features/cart/providers/cart-store-provider";
 import type { CartItem } from "@/features/cart/types/cart-item";
+import { AddressInput } from "@/features/cart/components/address-input";
 import { Button } from "@/components/ui/button";
 import { CardContent, CardFooter } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -72,6 +73,7 @@ function CartSummary({
         /^\+[1-9]\d{7,14}$/,
         "Gunakan format internasional, mis. +62xxxxxxxxxx"
       ),
+    address: z.string().min(1, cartLang.addressRequired),
     note: z.string().optional(),
   });
 
@@ -79,7 +81,13 @@ function CartSummary({
 
   const form = useForm<CustomerInfo>({
     resolver: zodResolver(CustomerInfoSchema),
-    defaultValues: { email: "", fullName: "", phone: "", note: "" },
+    defaultValues: {
+      email: "",
+      fullName: "",
+      phone: "",
+      address: "",
+      note: "",
+    },
     mode: "onChange",
     reValidateMode: "onChange",
   });
@@ -93,6 +101,7 @@ function CartSummary({
           email: parsed.email ?? "",
           fullName: parsed.fullName ?? "",
           phone: parsed.phone ?? "",
+          address: parsed.address ?? "",
           note: parsed.note ?? "",
         });
         form.trigger();
@@ -276,6 +285,7 @@ function CartSummary({
                 </FormItem>
               )}
             />
+            <AddressInput control={form.control} name="address" />
             <FormField
               control={form.control}
               name="note"

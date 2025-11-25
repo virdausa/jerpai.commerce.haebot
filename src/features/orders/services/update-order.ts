@@ -37,6 +37,7 @@ async function updateOrder(
     email: string;
     fullName: string;
     phone: string;
+    address: string;
     note?: string;
   }
 ): Promise<UpdateOrderResponse> {
@@ -60,6 +61,7 @@ async function updateOrder(
     lang.receiverNote.email(customerData.email),
     lang.receiverNote.name(customerData.fullName),
     lang.receiverNote.phone(customerData.phone),
+    lang.receiverNote.address(customerData.address),
     customerData.note && lang.receiverNote.note(customerData.note),
   ];
 

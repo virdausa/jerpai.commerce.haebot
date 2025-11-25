@@ -27,6 +27,13 @@ interface CartLang {
   invalidOrderData: string;
   orderCreatedSuccess: string;
   errorOccurred: string;
+  addressLabel: string;
+  addressPlaceholder: string;
+  searchAddressPlaceholder: string;
+  selectLocationOnMap: string;
+  currentLocation: string;
+  loadingMap: string;
+  addressRequired: string;
 }
 
 const lang: CartLang = {
@@ -58,6 +65,13 @@ const lang: CartLang = {
   invalidOrderData: "Data pesanan tidak valid",
   orderCreatedSuccess: "Pesanan berhasil dibuat",
   errorOccurred: "Terjadi kesalahan",
+  addressLabel: "Alamat Pengiriman",
+  addressPlaceholder: "Pilih lokasi pada peta atau ketik alamat",
+  searchAddressPlaceholder: "Cari alamat...",
+  selectLocationOnMap: "Pilih lokasi pada peta",
+  currentLocation: "Gunakan lokasi saat ini",
+  loadingMap: "Memuat peta...",
+  addressRequired: "Alamat pengiriman wajib diisi",
 };
 
 export type { CartLang };

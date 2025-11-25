@@ -23,6 +23,7 @@ interface CheckoutLang {
     email: (email: string) => string;
     name: (name: string) => string;
     phone: (phone: string) => string;
+    address: (address: string) => string;
     note: (note: string) => string;
   };
   customerDetailsTitle: string;
@@ -81,6 +82,7 @@ const lang: CheckoutLang = {
     email: (email: string) => `Email: ${email}`,
     name: (name: string) => `Nama: ${name}`,
     phone: (phone: string) => `Nomor Telepon: ${phone}`,
+    address: (address: string) => `Alamat: ${address}`,
     note: (note: string) => `Catatan: ${note}`,
   },
   customerDetailsTitle: "Detail Pelanggan",

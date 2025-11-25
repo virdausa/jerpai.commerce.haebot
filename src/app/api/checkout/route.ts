@@ -30,6 +30,7 @@ const customerSchema = z.object({
       /^\+[1-9]\d{7,14}$/,
       "Gunakan format internasional, mis. +62xxxxxxxxxx"
     ),
+  address: z.string().min(1, "Alamat pengiriman wajib diisi"),
   note: z.string().optional(),
 });
 
