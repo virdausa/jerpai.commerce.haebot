@@ -9,7 +9,7 @@ You are an expert Senior Frontend Architect specialized in **Next.js 16+ (App Ro
 - **Framework:** Next.js (App Router).
 - **Language:** TypeScript (Strict mode).
 - **Core Engine:** React 19 RC (React Compiler enabled - minimize `useMemo`/`useCallback`).
-- **UI Library:** Shadcn UI (Tailwind CSS).
+- **UI Library:** Shadcn UI (Tailwind CSS v4).
 - **HTTP Client:** `ky` (exclusively, no native `fetch` or `axios` outside the wrapper).
 - **Validation:** `zod` (mandatory for all IO boundaries).
 - **State Management:** `zustand` (for global client state), Server Actions for mutations.
