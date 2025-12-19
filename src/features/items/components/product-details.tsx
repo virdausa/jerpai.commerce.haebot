@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import commonLang from "@/lang/id/common.lang";
 import wishlistLang from "@/lang/id/wishlist/wishlist.lang";
 import { MAX_ITEMS } from "@/features/wishlist/stores/wishlist-store";
+import { RichTextRenderer } from "@/components/rich-text-renderer";
 
 interface ProductDetailsProps {
   item: Item;
@@ -112,10 +113,7 @@ export function ProductDetails({ item }: ProductDetailsProps) {
 
       <div className="border-t pt-6">
         <h3 className="mb-4 text-lg font-semibold">{lang.description}</h3>
-        <div
-          className="prose prose-sm text-muted-foreground max-w-none"
-          dangerouslySetInnerHTML={{ __html: item.description || "" }}
-        />
+        <RichTextRenderer editorState={item.description ?? ""} />
       </div>
 
       <div className="grid grid-cols-2 gap-4 border-t pt-6 sm:grid-cols-4">
