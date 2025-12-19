@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { cn, getFullImageUrl } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { ImageZoom } from "@/components/ui/shadcn-io/image-zoom";
 import Autoplay from "embla-carousel-autoplay";
@@ -73,7 +73,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
                 <div className="relative w-full">
                   <ImageZoom>
                     <Image
-                      src={getFullImageUrl(image.path)}
+                      src={getItemImageUrl(image.path, image.isNew)}
                       alt={`${productName} - Image ${index + 1}`}
                       className="aspect-square h-full w-full object-cover"
                       height={600}
