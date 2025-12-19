@@ -13,12 +13,14 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import { getItemImageUrl } from "@/lib/image-url";
 
 interface ProductGalleryProps {
   images?: {
     name: string;
     path: string;
     size: number;
+    isNew?: boolean;
   }[];
   productName: string;
 }
@@ -106,7 +108,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
               onClick={() => handleThumbnailClick(index)}
             >
               <Image
-                src={getFullImageUrl(image.path)}
+                src={getItemImageUrl(image.path, image.isNew)}
                 alt={`${productName} - Thumbnail ${index + 1}`}
                 className="h-full w-full object-cover"
                 height={100}

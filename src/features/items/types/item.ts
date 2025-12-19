@@ -29,5 +29,6 @@ export interface Item {
     name: string;
     path: string;
     size: number;
+    isNew?: boolean;
   }[];
 }

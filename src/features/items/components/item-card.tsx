@@ -18,9 +18,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 // import { useCartStore } from "@/features/cart/providers/cart-store-provider";
 // import { useWishlistStore } from "@/features/wishlist/providers/wishlist-store-provider";
 // import { MAX_ITEMS } from "@/features/wishlist/stores/wishlist-store";
-import { formatIDR, getFullImageUrl } from "@/lib/utils";
+import { formatIDR } from "@/lib/utils";
 // import wishlistLang from "@/lang/id/wishlist/wishlist.lang";
 import Link from "next/link";
+import { getItemImageUrl } from "@/lib/image-url";
 
 interface ItemCardProps {
   item: Item;
@@ -32,7 +33,10 @@ function ItemCard({ item, showLatestBadge }: ItemCardProps) {
   // const { items: wishlistItems, toggle } = useWishlistStore((state) => state);
 
   const image = item.images?.[0];
-  const imageUrl = image?.path ? getFullImageUrl(image.path) : placeholder;
+  const isNewImage = image?.isNew ?? false;
+  const imageUrl = image?.path
+    ? getItemImageUrl(image.path, isNewImage)
+    : placeholder;
 
   // function handleAddToCart(event: React.MouseEvent<HTMLButtonElement>) {
   //   event.preventDefault();
