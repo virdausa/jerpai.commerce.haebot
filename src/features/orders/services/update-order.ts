@@ -4,6 +4,7 @@ import lang from "@/lang/id/checkout/checkout.lang";
 import { env } from "@/config/env.config";
 import { Item } from "@/features/items/types/item";
 import { erpApi } from "@/infrastructures/http";
+import { getEffectivePrice } from "@/lib/utils";
 
 interface UpdateOrderResponse {
   data: OrderData[];
@@ -44,11 +45,15 @@ async function updateOrder(
   const body: UpdateOrderRequestBody = {
     details: cartItems.map((cartItem) => {
       const item = cartItem.item;
+      const effectivePrice = getEffectivePrice(
+        item?.price?.toString() || "0",
+        item?.price_discount ?? null
+      );
 
       return {
         detail_id: item?.id?.toString() || "",
         quantity: cartItem.quantity?.toString() || "0",
-        price: item?.price?.toString() || "0",
+        price: effectivePrice,
         discount: "0",
         cost_per_unit: item?.price?.toString() || "0",
         notes: item?.notes || "",

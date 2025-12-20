@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/item";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/features/cart/providers/cart-store-provider";
-import { cn, formatIDR } from "@/lib/utils";
+import { cn, formatIDR, getEffectivePrice } from "@/lib/utils";
 
 import placeholder from "@/assets/images/placeholder.jpg";
 
@@ -29,7 +29,9 @@ interface CartItemProps {
 function CartItem({ cartItem, showControls = true, className }: CartItemProps) {
   const { addItem, updateItemQuantity, removeItem } = useCartStore((s) => s);
   const item = cartItem.item;
-  const price = formatIDR(item.price);
+  const effectivePrice = getEffectivePrice(item.price, item.price_discount);
+  const hasDiscount =
+    item.price_discount !== null && Number(item.price_discount) > 0;
 
   // TODO: Fix max qty
   // const maxQty =
@@ -82,7 +84,16 @@ function CartItem({ cartItem, showControls = true, className }: CartItemProps) {
       </ItemMedia>
       <ItemContent>
         <ItemTitle>{item.name}</ItemTitle>
-        <ItemDescription>{price}</ItemDescription>
+        <ItemDescription>
+          <span className="flex flex-wrap items-baseline gap-1">
+            <span>{formatIDR(effectivePrice)}</span>
+            {hasDiscount && (
+              <span className="text-muted-foreground text-xs line-through">
+                {formatIDR(item.price)}
+              </span>
+            )}
+          </span>
+        </ItemDescription>
       </ItemContent>
       {showControls && (
         <ItemActions>

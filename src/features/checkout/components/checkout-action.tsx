@@ -6,7 +6,7 @@
 import checkoutLang from "@/lang/id/checkout/checkout.lang";
 import { CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { formatIDR } from "@/lib/utils";
+import { formatIDR, getEffectivePrice } from "@/lib/utils";
 import { OrderData } from "@/features/orders/services/update-order";
 
 function CheckoutActions({ order }: { order: OrderData }) {
@@ -16,10 +16,12 @@ function CheckoutActions({ order }: { order: OrderData }) {
   const lines = [
     checkoutLang.whatsappMessage.greeting(order.id),
     checkoutLang.whatsappMessage.detailsHeader,
-    ...items.map(
-      (it) =>
-        `- ${it.detail?.name || it.notes || checkoutLang.unknownItem} x${it.quantity} @ ${formatIDR(String(Math.round(Number(it.price))))}`
-    ),
+    ...items.map((it) => {
+      const effectivePrice = Math.round(
+        Number(getEffectivePrice(it.price, it.detail?.price_discount ?? null))
+      );
+      return `- ${it.detail?.name || it.notes || checkoutLang.unknownItem} x${it.quantity} @ ${formatIDR(String(effectivePrice))}`;
+    }),
     checkoutLang.whatsappMessage.total(formatIDR(String(Math.round(total)))),
   ];
   const message = lines.join("\n");

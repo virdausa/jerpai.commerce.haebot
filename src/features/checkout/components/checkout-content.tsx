@@ -6,7 +6,7 @@ import { CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 // import { Button } from "@/components/ui/button";
-import { formatIDR } from "@/lib/utils";
+import { formatIDR, getEffectivePrice } from "@/lib/utils";
 import { OrderData } from "@/features/orders/services/update-order";
 import {
   Item,
@@ -254,9 +254,18 @@ function CheckoutContent({ order }: { order: OrderData }) {
               items.map((item) => {
                 const name =
                   item.detail?.name || item.notes || checkoutLang.unknownItem;
-                const unitPrice = Math.round(Number(item.price));
+                const originalPrice = Math.round(Number(item.price));
+                const effectivePrice = Math.round(
+                  Number(
+                    getEffectivePrice(
+                      item.price,
+                      item.detail?.price_discount ?? null
+                    )
+                  )
+                );
+                const hasDiscount = effectivePrice < originalPrice;
                 const qty = Number(item.quantity);
-                const lineTotal = Math.round(unitPrice * qty);
+                const lineTotal = Math.round(effectivePrice * qty);
                 return (
                   <li
                     key={`summary-${item.id}`}
@@ -265,7 +274,12 @@ function CheckoutContent({ order }: { order: OrderData }) {
                     <div className="flex flex-col">
                       <span className="font-medium">{name}</span>
                       <span className="text-muted-foreground text-sm">
-                        {qty} × {formatIDR(String(unitPrice))}
+                        {qty} × {formatIDR(String(effectivePrice))}
+                        {hasDiscount && (
+                          <span className="ml-1 text-xs line-through">
+                            {formatIDR(String(originalPrice))}
+                          </span>
+                        )}
                       </span>
                     </div>
                     <span className="font-semibold tabular-nums">

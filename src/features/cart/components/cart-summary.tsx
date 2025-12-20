@@ -19,7 +19,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { lang as cartLang } from "@/lang/id/cart/cart.lang";
-import { cn, formatIDR } from "@/lib/utils";
+import { cn, formatIDR, getEffectivePrice } from "@/lib/utils";
 import {
   Form,
   FormField,
@@ -124,7 +124,10 @@ function CartSummary({
   };
 
   const subtotal = items.reduce(
-    (acc, it) => acc + toNumber(it.item.price) * it.quantity,
+    (acc, it) =>
+      acc +
+      toNumber(getEffectivePrice(it.item.price, it.item.price_discount)) *
+        it.quantity,
     0
   );
   const discount = providedDiscount;
