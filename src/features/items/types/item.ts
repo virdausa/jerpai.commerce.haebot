@@ -15,6 +15,7 @@ export interface Item {
   space_id: number;
   name: string;
   price: string;
+  price_discount: string | null;
   cost: string;
   weight: string;
   dimension: string | null;
@@ -30,5 +31,10 @@ export interface Item {
     path: string;
     size: number;
     isNew?: boolean;
+  }[];
+  files?: {
+    name: string;
+    path: string;
+    size: number;
   }[];
 }

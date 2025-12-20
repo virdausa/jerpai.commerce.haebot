@@ -8,6 +8,8 @@ interface ItemLang {
   addToWishlist: string;
   description: string;
   price: string;
+  originalPrice: string;
+  discountedPrice: string;
   sku: string;
   weight: string;
   dimensions: string;
@@ -15,6 +17,9 @@ interface ItemLang {
   backToProducts: string;
   loadingMore: string;
   endOfList: string;
+  files: string;
+  downloadFile: string;
+  noFiles: string;
 }
 
 const lang: ItemLang = {
@@ -27,6 +32,8 @@ const lang: ItemLang = {
   addToWishlist: "Tambah ke Wishlist",
   description: "Deskripsi",
   price: "Harga",
+  originalPrice: "Harga Asli",
+  discountedPrice: "Harga Diskon",
   sku: "SKU",
   weight: "Berat",
   dimensions: "Dimensi",
@@ -34,6 +41,9 @@ const lang: ItemLang = {
   backToProducts: "Kembali ke Produk",
   loadingMore: "Memuat produk...",
   endOfList: "Tidak ada produk lagi",
+  files: "File",
+  downloadFile: "Unduh",
+  noFiles: "Tidak ada file",
 };
 
 export type { ItemLang };

@@ -114,12 +114,24 @@ function ItemCard({ item, showLatestBadge }: ItemCardProps) {
           </h3>
 
           {/* Price */}
-          <div className="flex items-baseline gap-2">
-            <span className="text-primary text-lg font-bold">
-              {formatIDR(item.price)}
-            </span>
-            {/* Optional: Show original price if discounted */}
-            {/* <span className="text-sm text-muted-foreground line-through">Rp 999.000</span> */}
+          <div className="flex flex-wrap items-baseline gap-2">
+            {item.price_discount && Number(item.price_discount) > 0 ? (
+              <>
+                <span className="text-primary text-lg font-bold">
+                  {formatIDR(item.price_discount)}
+                </span>
+                <span
+                  className="text-muted-foreground text-sm line-through"
+                  aria-label={itemLang.originalPrice}
+                >
+                  {formatIDR(item.price)}
+                </span>
+              </>
+            ) : (
+              <span className="text-primary text-lg font-bold">
+                {formatIDR(item.price)}
+              </span>
+            )}
           </div>
 
           {/* Actions */}
